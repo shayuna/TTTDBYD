@@ -5,8 +5,12 @@
     "dependencies": {
         "bootstrap": "^3.3.7",
         "custom-react-scripts": "0.2.1",
-        "react": "^16.1.1",
-        "react-dom": "^16.1.1"
+        "firebase": "^5.5.9",
+        "react": "^16.6.3",
+        "react-dom": "^16.6.3",
+        "react-redux": "^5.1.1",
+        "redux": "^4.0.1",
+        "redux-thunk": "^2.3.0"
     },
     "scripts": {
         "start": "react-scripts start",

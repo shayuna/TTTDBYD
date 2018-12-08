@@ -1,0 +1,38 @@
+@import "vars";
+@import "fonts";
+
+html,body{
+    font-family:Lato,sans-serif;
+}
+.itm{
+    margin:2rem 0.2rem;
+    padding:0.5rem;
+    border:1px solid red;
+    display:flex;
+    flex-direction:column;
+}
+.likeEmpty,.likeFull{
+    color:red;
+    background-repeat:no-repeat;
+    width:32px;
+    height:32px;
+    cursor:pointer;
+}
+.likeEmpty{
+    background-image:url(../images/likeEmpty.png);
+}
+.likeFull{
+    background-image:url(../images/likeFull.png);
+}
+.likeBtn{
+    display:flex;
+    border:1px solid black;
+    align-items:center;
+    padding:0.5rem;
+}
+.likeBtn>.caption{
+    margin-right:0.2rem;
+}
+.fontBig{
+    font-size:5rem;
+}
