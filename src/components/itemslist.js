@@ -17,16 +17,18 @@ class ItemsList extends Component {
     }
     render(){
         return (
-            <div>
-                <h3>items list:</h3>
+            <div className="itemsList">
                 {
                     this.state.currentList && this.props.items[this.state.currentList] && this.props.items[this.state.currentList].map((itm,ii)=>(
                         <article style={styles.itmStyle} className="itm" key={ii} data-id={itm.id}>
-                            <span>{itm.caption +" - " +itm.description+" - "}</span>
-                            <Button caption={itm.username} withBorder="1" activateProperFunctionBoy={(event)=>{this.getList("username",itm.username)}}/>
-                            <LikeButton caption={itm.likes} itmID={itm.id} isItmInLikes={this.isItemInLikes(itm.id)} updateLikes={this.updatelikes_new}/>
-                            {itm.userid===this.props.user.id && <Button caption="Edit" withBorder="1" activateProperFunctionBoy={()=>this.editItem(itm.id,itm.caption,itm.description)}/>}
-                            {itm.userid===this.props.user.id && <Button caption="Del" withBorder="1" activateProperFunctionBoy={()=>this.delItem(itm.id)}/>}
+                            <div className="hdr">{itm.caption}</div>
+                            <div className="content">{itm.description}</div>
+                            <div className="interactivePanel">
+                                <Button caption={itm.username} withBorder="1" activateProperFunctionBoy={(event)=>{this.getList("username",itm.username)}}/>
+                                <LikeButton caption={itm.likes} itmID={itm.id} isItmInLikes={this.isItemInLikes(itm.id)} updateLikes={this.updatelikes_new}/>
+                                {itm.userid===this.props.user.id && <Button caption="Edit" withBorder="1" activateProperFunctionBoy={()=>this.editItem(itm.id,itm.caption,itm.description)}/>}
+                                {itm.userid===this.props.user.id && <Button caption="Del" withBorder="1" activateProperFunctionBoy={()=>this.delItem(itm.id)}/>}
+                            </div>
                         </article>
                     ))
                 }

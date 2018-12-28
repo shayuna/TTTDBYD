@@ -6,6 +6,16 @@ class Register extends Component {
     constructor(){
         super();
         this.register=this.register.bind(this);
+        const myself=this;
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              // User is signed in.
+              myself.register_cont();
+              console.log ("registered");
+            } else {
+              // No user is signed in.
+            }
+          });
     }
     render(){
         return (
@@ -39,6 +49,7 @@ class Register extends Component {
     }
     register(){
         if (!this.validate())return;
+/*
         const database = firebase.database();
         const query=database.ref("users").orderByChild("username").equalTo(document.getElementById("username").value);
         query.once("value")
@@ -54,22 +65,41 @@ class Register extends Component {
         .catch((err)=>{
             console.log ("error was detected when trying to verify a new user name",err);
         }); 
+  */
+        const email=document.getElementById("username").value+"12345678@gmail.com";
+        const password=document.getElementById("pwd").value;
+
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert (errorMessage);
+            // ...
+        });
+
+
+  
+ 
     }
     register_cont(){
-        const database = firebase.database();
-       console.log("adding new user to db");
-        database.ref("users")
-        .push({
-            username:document.getElementById("username").value,
-            pwd:document.getElementById("pwd").value,
-        })
-        .then((oKey)=>{
-            this.props.setUser(document.getElementById("username").value,oKey.key);
-            this.props.switchToMain();
-        })
-        .catch((err)=>{
-            console.log ("an error was detected. err is - ",err);
-        })
+       console.log("adding new user to db.user is is - "+firebase.auth().currentUser.uid);
+       this.props.setUser(document.getElementById("username").value,firebase.auth().currentUser.uid);
+       this.props.switchToMain();
+/*       
+        if (firebase.auth().currentUser){
+            const database = firebase.database();
+            database.ref("users").child(firebase.auth().currentUser.uid).set({
+                likes:{}
+            })
+            .then(()=>{
+                this.props.setUser(document.getElementById("username").value,firebase.auth().currentUser.uid);
+                this.props.switchToMain();
+            })
+            .catch((err)=>{
+                alert ("err in regiter_cont. err is - "+err.message);
+            });
+       }
+*/
     }
 /*
     componentWillReceiveProps(newProps){
@@ -98,7 +128,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser:(name,id)=>dispatch(setUser(name,id)),
+        setUser:(name,id)=>dispatch(setUser(name,id,[])),
     }
 }
 

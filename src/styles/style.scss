@@ -5,12 +5,26 @@ html,body{
     font-family:Lato,sans-serif;
 }
 .itm{
-    margin:2rem 0.2rem;
+    margin:0.1rem;
     padding:0.5rem;
-    border:1px solid red;
+    background-color:lightgoldenrodyellow;
     display:flex;
     flex-direction:column;
+    align-items: flex-start !important;
+    color:orange;
 }
+.itm>.hdr,.itm>.content,.itm>.interactivePanel{
+    padding: 0.5rem 0;
+}
+.itm>.hdr{
+    font-size:1.5rem;
+    font-weight:bold;
+}
+.itm>.interactivePanel{
+    display:flex;
+    flex-direction: row;
+}
+
 .likeEmpty,.likeFull{
     color:red;
     background-repeat:no-repeat;
@@ -28,11 +42,37 @@ html,body{
     display:flex;
     border:1px solid black;
     align-items:center;
-    padding:0.5rem;
 }
 .likeBtn>.caption{
     margin-right:0.2rem;
 }
+.itemsList .interactivePanel .btnElmWrapper{
+    margin:0 0.1rem 0 0 !important;
+}
+/*  helper classes - start */
 .fontBig{
     font-size:5rem;
+}
+/*helper classes - end */
+
+@media screen and (min-width:760px){
+    #eRoot{
+        max-width:50rem;
+        margin:auto;
+    }
+    .appLogo{
+        font-size:3rem;
+        font-weight:bold;
+        flex-grow:1;
+    }
+    .appHdr{
+        display:flex;
+        align-items:center;
+    }
+}
+@media screen and (max-width:760px){
+    .appLogo{
+        font-size:2rem;
+        font-weight:bold;
+    }
 }

@@ -1,14 +1,13 @@
 import React from "react";
+import Helper from "./helper";
 
 const Logo = ()=>(
-    <div style={styles.logo}>TenThingsTDbeforeYD</div>
+    <div style={styles.cursor} className="appLogo" onClick={()=>Helper.reload()}>TenThingsTDbeforeYD</div>
 );
 
 const styles = {
-    logo:{
-        fontSize:"3em",
-        fontWeight:"bold",
-        flexGrow:1,
+    cursor:{
+        cursor:"pointer",
     }
 }
 

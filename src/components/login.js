@@ -7,6 +7,17 @@ class Login extends Component {
     constructor(){
         super();
         this.login=this.login.bind(this);
+        const myself=this;
+        firebase.auth().onAuthStateChanged(function(user,err) {
+            if (err)alert (err.message);
+            if (user) {
+              // User is signed in.
+              myself.login_cont();
+              console.log ("logged in");
+            } else {
+              // No user is signed in.
+            }
+          });
     }
     render(){
         return (
@@ -32,8 +43,41 @@ class Login extends Component {
         }
         return retVal;
     }
+    login_cont(){
+        console.log("logged in to db.user is is - "+firebase.auth().currentUser.uid);
+        if (firebase.auth().currentUser){
+            const database = firebase.database();
+            const query=database.ref("users").child(firebase.auth().currentUser.uid);
+            query.once("value")
+            .then((snapshot)=>{
+                const arLikes=!snapshot.val() || !snapshot.val()["likes"] ? [] : Object.keys(snapshot.val()["likes"]).map((oLikeID)=>{
+                    return snapshot.val()["likes"][oLikeID].itemID;
+                });
+                this.props.setUser(document.getElementById("username").value,firebase.auth().currentUser.uid,arLikes);
+                this.props.switchToMain();
+            })
+            .catch((err)=>{
+                console.log ("error was detected when trying to verify a new user name",err);
+            }); 
+    
+
+
+
+
+        }
+    }
     login(){
         if (!this.validate())return;
+        const email=document.getElementById("username").value+"12345678@gmail.com";
+        const password=document.getElementById("pwd").value;
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert (errorMessage);
+            // ...
+          });
+/*
         const database = firebase.database();
         const query=database.ref("users").orderByChild("username").equalTo(document.getElementById("username").value);
         query.once("value")
@@ -59,6 +103,7 @@ class Login extends Component {
         .catch((err)=>{
             console.log ("error was detected when trying to verify a new user name",err);
         }); 
+*/
     }
 }
 const styles={

@@ -7,6 +7,7 @@ import Login from "./components/login";
 import Register from "./components/register";
 import ManageItem from "./components/manageitem";
 import configureStore from "./redux/store/configurestore";
+import firebase from "firebase";
 import "./styles/style.scss";
 const store = configureStore();
 
@@ -32,6 +33,19 @@ class App extends Component{
         this.add=this.add.bind(this);
         this.main=this.main.bind(this);
         this.editItem=this.editItem.bind(this);
+
+        firebase.auth().signOut()
+        .then(function() {
+            // Sign-out successful.
+        })
+        .catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert (errorMessage);
+            // An error happened
+        });
+
+
     }
     render(){
         return (

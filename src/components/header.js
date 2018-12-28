@@ -3,7 +3,7 @@ import Logo from "./logo";
 import Button from "./button";
 
 const Header = (props)=>(
-    <div style={styles.header}>
+    <div className="appHdr">
         <Logo/> 
         {!props.user && <Button caption="Login" activateProperFunctionBoy={props.login}/> }
         {!props.user && <Button caption="Register" activateProperFunctionBoy={props.register}/>}
@@ -11,12 +11,5 @@ const Header = (props)=>(
         {props.user && <Button withBorder="1" caption="+" activateProperFunctionBoy={props.add}/>}
     </div>
 )
-
-const styles = {
-    header:{
-        display:"flex",
-        alignItems:"center",
-    },
-}
 
 export default Header;

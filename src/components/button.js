@@ -12,8 +12,6 @@ class Button extends Component{
             </div>
         )
     }
-    componentDidMount(){
-    }
 }
 
 const styles = {
