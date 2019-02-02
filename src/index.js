@@ -8,7 +8,7 @@ import Register from "./components/register";
 import ManageItem from "./components/manageitem";
 import configureStore from "./redux/store/configurestore";
 import firebase from "firebase";
-import "./styles/style.scss";
+import "./styles/style.scss?v=020219_1";
 const store = configureStore();
 
 const LOGIN_SCREEN=1;
