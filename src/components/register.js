@@ -20,11 +20,11 @@ class Register extends Component {
     render(){
         return (
             <article style={styles.main}>
-                <h3 style={styles.itm}>register screen</h3>
-                <input id="username" type="text" placeholder="enter a username" style={styles.itm} autoFocus/>
-                <input id="pwd" type="password" placeholder="enter password" style={styles.itm}/>
-                <input id="pwd2" type="password" placeholder="verify password" style={styles.itm}/>
-                <button onClick={this.register} style={styles.itm}>register</button> 
+                <h3 className="innerScrnHdr" style={styles.itm}>register screen</h3>
+                <input id="username" type="text" className="inputItm" placeholder="enter a username" style={styles.itm} autoFocus/>
+                <input id="pwd" type="password" className="inputItm" placeholder="enter password" style={styles.itm}/>
+                <input id="pwd2" type="password" className="inputItm" placeholder="verify password" style={styles.itm}/>
+                <button className="btn" onClick={this.register} style={styles.itm}>register</button> 
             </article>
         );
     }
@@ -114,9 +114,6 @@ const styles={
     },
     itm:{
         width:"10em",
-        margin:"0.5em auto",
-        lineHeight:"1.5",
-        textAlign:"center"
     },
 }
 

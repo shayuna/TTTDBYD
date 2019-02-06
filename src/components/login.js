@@ -22,10 +22,10 @@ class Login extends Component {
     render(){
         return (
             <article style={styles.main}>
-                <h3 style={styles.itm}>login screen</h3>
-                <input id="username" type="text" placeholder="username" style={styles.itm}/>
-                <input id="pwd" type="password" placeholder="password" style={styles.itm}/>
-                <button onClick={this.login} style={styles.itm}>login</button> 
+                <h3 className="innerScrnHdr" style={styles.itm}>login screen</h3>
+                <input id="username" type="text" className="inputItm" placeholder="username" style={styles.itm}/>
+                <input id="pwd" type="password" className="inputItm" placeholder="password" style={styles.itm}/>
+                <button class="btn" onClick={this.login} style={styles.itm}>login</button> 
             </article>
         );
     }
@@ -113,9 +113,6 @@ const styles={
     },
     itm:{
         width:"10em",
-        margin:"0.5em auto",
-        lineHeight:"1.5",
-        textAlign:"center"
     },
 }
 

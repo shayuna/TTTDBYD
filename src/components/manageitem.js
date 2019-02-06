@@ -12,11 +12,11 @@ class ManageItem extends Component {
     render(){
         return (
             <article style={styles.main}>
-                <h3 style={styles.itm}>manage item screen</h3>
-                <input id="caption" type="text" placeholder="title" style={styles.itm} defaultValue={this.props.caption}/>
-                <textarea id="description" type="description" placeholder="description" style={{...styles.itm,...styles.descriptionItm}} defaultValue={this.props.description}></textarea>
-                {!this.props.id && <button onClick={this.addItem} style={styles.itm}>add</button>} 
-                {this.props.id && <button onClick={this.updateItem} style={styles.itm}>update</button>} 
+                <h3 className="innerScrnHdr" style={styles.itm}>manage item screen</h3>
+                <input id="caption" type="text" className="inputItm" placeholder="title" style={styles.itm} defaultValue={this.props.caption}/>
+                <textarea id="description" type="description" className="inputItm" placeholder="description" style={{...styles.itm,...styles.descriptionItm}} defaultValue={this.props.description}></textarea>
+                {!this.props.id && <button className="btn" onClick={this.addItem} style={styles.itm}>add</button>} 
+                {this.props.id && <button className="btn" onClick={this.updateItem} style={styles.itm}>update</button>} 
             </article>
         );
     }
@@ -77,9 +77,6 @@ const styles={
     },
     itm:{
         width:"20em",
-        margin:"0.5em auto",
-        lineHeight:"1.5",
-        textAlign:"center"
     },
     descriptionItm:{
         height:"20em",
