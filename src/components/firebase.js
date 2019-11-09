@@ -1,11 +1,11 @@
 import firebase from "firebase";
-const config = {
-  apiKey: "AIzaSyCvkpBwmb-w_8tSLvx0BwjsB3YxOfGmqrc",
-  authDomain: "tenthingstdbeforeyd.firebaseapp.com",
-  databaseURL: "https://tenthingstdbeforeyd.firebaseio.com",
-  projectId: "tenthingstdbeforeyd",
-  storageBucket: "tenthingstdbeforeyd.appspot.com",
-  messagingSenderId: "423763433621"
+var config = {
+  apiKey: "AIzaSyDE9XKjaPpF6QNIXshuS_BCU8zrKj-YGnI",
+  authDomain: "runningvscity.firebaseapp.com",
+  databaseURL: "https://runningvscity.firebaseio.com",
+  projectId: "runningvscity",
+  storageBucket: "runningvscity.appspot.com",
+  messagingSenderId: "597964700199"
 };
 firebase.initializeApp(config);
 export default firebase;
