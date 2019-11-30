@@ -5,6 +5,7 @@ import Button from "./button";
 const Header = (props)=>(
     <div className="appHdr">
         <Logo/> 
+        <Button caption="About" activateProperFunctionBoy={props.about}/>
         {!props.user && <Button caption="Login" activateProperFunctionBoy={props.login}/> }
         {!props.user && <Button caption="Register" activateProperFunctionBoy={props.register}/>}
         {props.user && <article>{"hi "+props.user}</article>} 

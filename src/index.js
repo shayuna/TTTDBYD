@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import {Provider} from "react-redux";
 import Header from "./components/header";
 import ItemsList from "./components/itemslist";
+import About from "./components/About";
 import Login from "./components/login";
 import Register from "./components/register";
 import ManageItem from "./components/manageitem";
@@ -17,6 +18,7 @@ const REGISTER_SCREEN=2;
 const MAIN_SCREEN=3;
 const ADD_ITEM=4;
 const EDIT_ITEM=5;
+const ABOUT_SCREEN=6
 
 class App extends Component{
     constructor(){
@@ -29,6 +31,7 @@ class App extends Component{
                 description:"",
             }
         }
+        this.about=this.about.bind(this);
         this.login=this.login.bind(this);
         this.register=this.register.bind(this);
         this.add=this.add.bind(this);
@@ -52,15 +55,21 @@ class App extends Component{
         return (
             <Provider store={store}>
                 <article>
-                    <Header login={this.login} register={this.register} add={this.add} user={store.getState().user.name}/>
+                    <Header login={this.login} register={this.register} about={this.about} add={this.add} user={store.getState().user.name}/>
                         {this.state.screen===MAIN_SCREEN && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)}/>}
                         {this.state.screen===LOGIN_SCREEN && <Login switchToMain={this.main}/>} 
+                        {this.state.screen===ABOUT_SCREEN && <About switchToMain={this.main}/>} 
                         {this.state.screen===REGISTER_SCREEN && <Register switchToMain={this.main}/>}
                         {this.state.screen===ADD_ITEM && <ManageItem switchToMain={this.main}/>} 
                         {this.state.screen===EDIT_ITEM && <ManageItem switchToMain={this.main} id={this.state.editItemDetails.id} caption={this.state.editItemDetails.caption} description={this.state.editItemDetails.description}/>} 
                 </article>
             </Provider>
         );
+    }
+    about(){
+        this.setState({
+            screen:ABOUT_SCREEN,
+        });
     }
     login(){
         this.setState({

@@ -63,6 +63,16 @@ input,textarea,select{
 .innerScrnHdr,.btn{
     text-align:center;
 }
+/* about page classes - start */
+.aboutPg{
+    padding:0.5rem;
+    line-height:1.5rem;
+}
+.aboutPg .backBtn{
+    margin:1rem 0;
+}
+/* about page classes - end */
+
 
 /*  helper classes - start */
 .fontBig{
