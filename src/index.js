@@ -23,14 +23,6 @@ const ABOUT_SCREEN=6
 class App extends Component{
     constructor(){
         super();
-        this.state={
-            screen:MAIN_SCREEN,
-            editItemDetails:{
-                id:"",
-                caption:"",
-                description:"",
-            }
-        }
         this.about=this.about.bind(this);
         this.login=this.login.bind(this);
         this.register=this.register.bind(this);
@@ -49,6 +41,15 @@ class App extends Component{
             // An error happened
         });
 
+        this.state={
+            screen:MAIN_SCREEN,
+            editItemDetails:{
+                id:"",
+                caption:"",
+                description:"",
+            },
+            usr:(new URLSearchParams(window.location.search)).get("usr"),
+        }
 
     }
     render(){
@@ -56,7 +57,7 @@ class App extends Component{
             <Provider store={store}>
                 <article>
                     <Header login={this.login} register={this.register} about={this.about} add={this.add} user={store.getState().user.name}/>
-                        {this.state.screen===MAIN_SCREEN && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)}/>}
+                        {this.state.screen===MAIN_SCREEN && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr}/>}
                         {this.state.screen===LOGIN_SCREEN && <Login switchToMain={this.main}/>} 
                         {this.state.screen===ABOUT_SCREEN && <About switchToMain={this.main}/>} 
                         {this.state.screen===REGISTER_SCREEN && <Register switchToMain={this.main}/>}

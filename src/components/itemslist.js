@@ -180,7 +180,8 @@ class ItemsList extends Component {
         
     }
     componentDidMount(){
-        this.getList("likes");
+        if (this.props.usr)this.getList("username",this.props.usr);
+        else this.getList("likes");
     }
     componentWillReceiveProps(newProps){
 //        console.log ("current list is - "+newProps.items.currentList);
