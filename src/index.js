@@ -30,6 +30,13 @@ class App extends Component{
         this.main=this.main.bind(this);
         this.editItem=this.editItem.bind(this);
 
+        var sUsr="";
+        try{
+            sUsr=(new URLSearchParams(window.location.search)).get("usr");
+        }
+        catch(err){
+        }
+
         firebase.auth().signOut()
         .then(function() {
             // Sign-out successful.
@@ -48,7 +55,7 @@ class App extends Component{
                 caption:"",
                 description:"",
             },
-            usr:(new URLSearchParams(window.location.search)).get("usr"),
+            usr:sUsr,
         }
 
     }
