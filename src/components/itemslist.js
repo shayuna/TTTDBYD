@@ -28,6 +28,7 @@ class ItemsList extends Component {
                                 <LikeButton caption={itm.likes} itmID={itm.id} isItmInLikes={this.isItemInLikes(itm.id)} updateLikes={this.updatelikes_new}/>
                                 {itm.userid===this.props.user.id && <Button caption="Edit" withBorder="1" activateProperFunctionBoy={()=>this.editItem(itm.id,itm.caption,itm.description)}/>}
                                 {itm.userid===this.props.user.id && <Button caption="Del" withBorder="1" activateProperFunctionBoy={()=>this.delItem(itm.id)}/>}
+                                <select class="action" ><option value="0">not for me</option><option value="1">want to</option><option value="2">did it</option><option value="3">doing it</option></select>
                             </div>
                         </article>
                     ))

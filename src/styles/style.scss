@@ -28,7 +28,13 @@ input,textarea,select{
     grid-template-columns:repeat(5,auto) 1fr;
     grid-column-gap: 0.5rem;
 }
-
+.itm>.interactivePanel>.action{
+    color:red;
+    border:1px solid black;
+}
+.interactivePanel>*{
+    margin-right:1rem;    
+}
 .likeEmpty,.likeFull{
     color:red;
     background-repeat:no-repeat;
