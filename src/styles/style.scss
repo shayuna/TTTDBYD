@@ -27,7 +27,13 @@ input,textarea,select{
     display:flex;
     flex-direction: row;
 }
-
+.itm>.interactivePanel>.action{
+    color:red;
+    border:1px solid black;
+}
+.interactivePanel>*{
+    margin-right:1rem;    
+}
 .likeEmpty,.likeFull{
     color:red;
     background-repeat:no-repeat;
