@@ -24,8 +24,9 @@ input,textarea,select{
     font-weight:bold;
 }
 .itm>.interactivePanel{
-    display:flex;
-    flex-direction: row;
+    display:grid;
+    grid-template-columns:repeat(5,auto) 1fr;
+    grid-column-gap: 0.5rem;
 }
 
 .likeEmpty,.likeFull{
