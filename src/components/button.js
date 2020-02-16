@@ -8,7 +8,6 @@ class Button extends Component{
         return (
             <div className="btnElmWrapper" style={{...styles.button,...(parseInt(this.props.withBorder,10)===1 ? styles.withBorder : {})}} onClick={this.props.activateProperFunctionBoy} title={this.props.textOnHover}>
                <div> {this.props.caption}</div>
-               <div>{this.props.textOnHover}</div>
             </div>
         )
     }

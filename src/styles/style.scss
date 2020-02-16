@@ -2,7 +2,8 @@
 @import "fonts";
 
 html,body{
-    font-family:Lato,sans-serif;
+    font-family:Courier, 'Courier New', monospace;
+    line-height:1.5;
 }
 input,textarea,select{
     box-sizing:border-box;
@@ -10,7 +11,7 @@ input,textarea,select{
 .itm{
     margin:0.1rem;
     padding:0.5rem;
-    background-color:lightgoldenrodyellow;
+    background-color:yellow;
     display:flex;
     flex-direction:column;
     align-items: flex-start !important;
@@ -18,6 +19,9 @@ input,textarea,select{
 }
 .itm>.hdr,.itm>.content,.itm>.interactivePanel{
     padding:0.5rem 1rem;
+}
+.itm>.content{
+    text-align:justify
 }
 .itm>.hdr{
     font-size:1.5rem;
@@ -92,11 +96,16 @@ input,textarea,select{
     .appLogo{
         font-size:3rem;
         font-weight:bold;
-        flex-grow:1;
     }
     .appHdr{
+    }
+    .appHdr .menu{
         display:flex;
+        justify-content:flex-end;
         align-items:center;
+    }
+    .appHdr .menu .greetings{
+        margin-right:auto;
     }
 }
 @media screen and (max-width:760px){

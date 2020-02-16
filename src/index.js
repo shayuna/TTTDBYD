@@ -29,6 +29,7 @@ class App extends Component{
         this.add=this.add.bind(this);
         this.main=this.main.bind(this);
         this.editItem=this.editItem.bind(this);
+        this.getPageLink=this.getPageLink.bind(this);
 
         var sUsr="";
         try{
@@ -63,7 +64,7 @@ class App extends Component{
         return (
             <Provider store={store}>
                 <article>
-                    <Header login={this.login} register={this.register} about={this.about} add={this.add} user={store.getState().user.name}/>
+                    <Header login={this.login} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} user={store.getState().user.name}/>
                         {this.state.screen===MAIN_SCREEN && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr}/>}
                         {this.state.screen===LOGIN_SCREEN && <Login switchToMain={this.main}/>} 
                         {this.state.screen===ABOUT_SCREEN && <About switchToMain={this.main}/>} 
@@ -108,6 +109,14 @@ class App extends Component{
         this.setState({
             screen:ADD_ITEM,
         });
+    }
+    getPageLink(){
+        navigator.clipboard.writeText(window.location.href+"?usr="+store.getState().user.name)
+        .then(()=>{
+            alert ("the url has been copied to the clipboard");
+        },(err)=>{
+            console.error("failed to copy text to the clipboard. err is ",err);
+        })
     }
 }
 ReactDOM.render(<App/>,document.querySelector("#eRoot"));
