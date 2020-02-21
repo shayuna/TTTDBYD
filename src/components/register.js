@@ -6,6 +6,9 @@ class Register extends Component {
     constructor(){
         super();
         this.register=this.register.bind(this);
+        this.isNameUnique=this.isNameUnique.bind(this);
+        this.usernameRef=React.createRef();
+        this.passwordRef=React.createRef();
         const myself=this;
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
@@ -21,28 +24,43 @@ class Register extends Component {
         return (
             <article style={styles.main}>
                 <h3 className="innerScrnHdr" style={styles.itm}>register screen</h3>
-                <input id="username" type="text" className="inputItm" placeholder="enter a username" style={styles.itm} autoFocus/>
-                <input id="pwd" type="password" className="inputItm" placeholder="enter password" style={styles.itm}/>
+                <input id="username" type="text" className="inputItm" placeholder="enter a username" style={styles.itm} autoFocus ref={this.usernameRef} onBlur={this.isNameUnique}/>
+                <input id="pwd" type="password" className="inputItm" placeholder="enter password" style={styles.itm} ref={this.passwordRef}/>
                 <input id="pwd2" type="password" className="inputItm" placeholder="verify password" style={styles.itm}/>
                 <button className="btn" onClick={this.register} style={styles.itm}>register</button> 
             </article>
         );
     }
+    isNameUnique(){
+        const database = firebase.database();
+        const query=database.ref("users").orderByChild("username").equalTo(this.usernameRef.current.value)
+        .once("value",snapshot=>{
+            if (snapshot.exists()){
+                alert ("the name you chose is in use. please choose another name");
+                this.usernameRef.current.focus();
+                this.usernameRef.current.value="";
+                // found
+            }
+            else{
+                // not found
+            }
+        });
+    }
     validate(){
         let retVal=true;   
-        if (document.getElementById("username").value.trim()===""){
+        if (this.usernameRef.current.value.trim()===""){
             alert ("you should have a new name, punk");
-            document.getElementById("username").focus();
+            this.usernameRef.current.focus();
             retVal=false;
         }
-        else if (document.getElementById("pwd").value.trim()===""){
+        else if (this.passwordRef.current.value.trim()===""){
             alert ("you should have a password, punk");
-            document.getElementById("pwd").focus();
+            this.passwordRef.current.focus();
             retVal=false;
         }
-        else if (document.getElementById("pwd").value.trim()!==document.getElementById("pwd2").value.trim()){
+        else if (this.passwordRef.current.value.trim()!==document.getElementById("pwd2").value.trim()){
             alert ("there is no correspondence between the two passwords, punk");
-            document.getElementById("pwd").focus();
+            this.passwordRef.current.focus();
             retVal=false;
         }
         return retVal;
@@ -66,8 +84,10 @@ class Register extends Component {
             console.log ("error was detected when trying to verify a new user name",err);
         }); 
   */
-        const email=document.getElementById("username").value+"12345678@gmail.com";
-        const password=document.getElementById("pwd").value;
+        const email=this.usernameRef.current.value+"12345678@gmail.com";
+        const password=this.passwordRef.current.value;
+
+
 
         firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
             // Handle Errors here.
@@ -83,7 +103,17 @@ class Register extends Component {
     }
     register_cont(){
        console.log("adding new user to db.user is is - "+firebase.auth().currentUser.uid);
-       this.props.setUser(document.getElementById("username").value,firebase.auth().currentUser.uid);
+       const database = firebase.database();
+       database.ref("users").child(firebase.auth().currentUser.uid).set({
+            username:this.usernameRef.current.value,
+        })
+        .then(()=>{
+        })
+        .catch((err)=>{
+            console.log ("err in regiter_cont. err is - "+err.message);
+        });
+
+       this.props.setUser(this.usernameRef.current.value,firebase.auth().currentUser.uid);
        this.props.switchToMain();
 /*       
         if (firebase.auth().currentUser){
