@@ -29,7 +29,6 @@ input,textarea,select{
 }
 .itm>.interactivePanel{
     display:grid;
-    grid-template-columns:repeat(5,auto) 1fr;
     grid-column-gap: 0.5rem;
 }
 .itm>.interactivePanel>.action{
@@ -107,10 +106,38 @@ input,textarea,select{
     .appHdr .menu .greetings{
         margin-right:auto;
     }
+    .itm>.interactivePanel{
+        grid-template-columns:repeat(5,auto);
+    }
 }
 @media screen and (max-width:760px){
     .appLogo{
         font-size:2rem;
         font-weight:bold;
     }
+    .itm>.interactivePanel{
+        grid-template-columns:repeat(5,auto);
+    }
+}
+@media screen and (max-width:480px){
+    .appLogo{
+        font-size:2rem;
+        font-weight:bold;
+    }
+    .itm>.interactivePanel{
+        grid-template-columns:repeat(4,auto);
+        grid-row-gap:0.5rem;    
+    }
+    .itm>.interactivePanel>.action{
+        padding:0.5rem;
+    }
+    .appHdr .menu{
+        display:flex;
+        flex-direction:column;
+        align-items:flex-start;
+    }
+    .menu .greetings{
+        margin:0.5rem;
+    }
+ 
 }
