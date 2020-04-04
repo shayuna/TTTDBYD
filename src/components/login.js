@@ -25,7 +25,7 @@ class Login extends Component {
                 <h3 className="innerScrnHdr" style={styles.itm}>login screen</h3>
                 <input id="username" type="text" className="inputItm" placeholder="username" style={styles.itm}/>
                 <input id="pwd" type="password" className="inputItm" placeholder="password" style={styles.itm}/>
-                <button class="btn" onClick={this.login} style={styles.itm}>login</button> 
+                <button className="btn" onClick={this.login} style={styles.itm}>login</button> 
             </article>
         );
     }
@@ -53,7 +53,7 @@ class Login extends Component {
                 const arLikes=!snapshot.val() || !snapshot.val()["likes"] ? [] : Object.keys(snapshot.val()["likes"]).map((oLikeID)=>{
                     return snapshot.val()["likes"][oLikeID].itemID;
                 });
-                this.props.setUser(document.getElementById("username").value,firebase.auth().currentUser.uid,arLikes);
+                this.props.setUser(document.getElementById("username").value,firebase.auth().currentUser.uid,arLikes,snapshot.val()["affinities"]);
                 this.props.switchToMain();
             })
             .catch((err)=>{
@@ -124,7 +124,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser:(name,id,likes)=>dispatch(setUser(name,id,likes)),
+        setUser:(name,id,likes,affinities)=>dispatch(setUser(name,id,likes,affinities)),
     }
 }
 

@@ -4,7 +4,7 @@ import Button from "./button";
 import LikeButton from "./LikeButton";
 import {connect} from "react-redux";
 import {getitems,updatelikes,clearitems} from "../redux/actions/items";
-import {updatelikesinuser} from "../redux/actions/user";
+import {updatelikesinuser,updateAffinityVal} from "../redux/actions/user";
 
 class ItemsList extends Component {
     constructor(){
@@ -14,6 +14,9 @@ class ItemsList extends Component {
         };
         this.isItemInLikes=this.isItemInLikes.bind(this);
         this.updatelikes_new=this.updatelikes_new.bind(this);
+        this.setAffinity=this.setAffinity.bind(this);
+        this.getAffinityValue=this.getAffinityValue.bind(this);
+
     }
     render(){
         return (
@@ -28,7 +31,7 @@ class ItemsList extends Component {
                                 <LikeButton caption={itm.likes} itmID={itm.id} isItmInLikes={this.isItemInLikes(itm.id)} updateLikes={this.updatelikes_new}/>
                                 {itm.userid===this.props.user.id && <Button caption="Edit" withBorder="1" activateProperFunctionBoy={()=>this.editItem(itm.id,itm.caption,itm.description)}/>}
                                 {itm.userid===this.props.user.id && <Button caption="Del" withBorder="1" activateProperFunctionBoy={()=>this.delItem(itm.id)}/>}
-                                <select className="action" ><option value="0">not for me</option><option value="1">want to</option><option value="2">did it</option><option value="3">doing it</option></select>
+                                <select className="action" value={this.getAffinityValue(itm.id)} onChange={(e)=>this.setAffinity(itm.id,e.target)} disabled={!this.props.user.id ? "disabled" : ""}><option value="0">not for me</option><option value="1">want to</option><option value="2">did it</option><option value="3">doing it</option></select>
                             </div>
                         </article>
                     ))
@@ -60,6 +63,17 @@ class ItemsList extends Component {
         return this.props.user.likes.reduce((bExists1,val)=>{
             return bExists1 || val===sItemID;
         },false);
+    }
+    getAffinityValue(sItemID){
+        return this.props.user.affinities && this.props.user.affinities[sItemID] ? this.props.user.affinities[sItemID].rel : "0";
+    }
+    setAffinity(sItemID,elm){
+        if (!!this.props.user.id){
+            const oDB=firebase.database();
+            oDB.ref("users/"+this.props.user.id+"/affinities/"+sItemID).remove();
+            if (elm.value!=="0")oDB.ref("users/"+this.props.user.id+"/affinities/"+sItemID).set({rel:elm.value});
+            this.props.updateAffinityVal(sItemID,elm.value);
+        }
     }
     updatelikes_new(itmID,likesNum){
         const sUserID=this.props.user.id;
@@ -231,6 +245,7 @@ const mapDispatchToProps = (dispatch) => {
         getitems: (filter,valToMatch) => dispatch(getitems(filter,valToMatch)),
         updatelikesinuser:(id,operation)=>dispatch(updatelikesinuser(id,operation)),
         updatelikes:(id,vl)=>dispatch(updatelikes(id,vl)),
+        updateAffinityVal:(id,vl)=>dispatch(updateAffinityVal(id,vl)),
         clearItems:()=>dispatch(clearitems()),
     };
 };

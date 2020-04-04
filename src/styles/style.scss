@@ -35,6 +35,10 @@ input,textarea,select{
     color:red;
     border:1px solid black;
 }
+.itm>.interactivePanel>.action:disabled{
+    background:#ddd;
+    color:#000;
+}
 .likeEmpty,.likeFull{
     color:red;
     background-repeat:no-repeat;
