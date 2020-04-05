@@ -10,7 +10,8 @@ const Header = (props)=>(
             <Button caption="About" activateProperFunctionBoy={props.about}/>
             {!props.user && <Button caption="Login" activateProperFunctionBoy={props.login}/> }
             {!props.user && <Button caption="Register" activateProperFunctionBoy={props.register}/>}
-            {props.user && <Button caption="Page Link" activateProperFunctionBoy={props.getPageLink} textOnHover={"copy YOUR 'things to do list' url to clipboard"}/>}
+            {props.user && 0===1 && <Button caption="Page Link" activateProperFunctionBoy={props.getPageLink} textOnHover={"copy YOUR 'things to do list' url to clipboard"}/>}
+            {props.user && <Button caption="MyPage" activateProperFunctionBoy={props.openMyPage}/>}
             {props.user && <Button withBorder="1" caption="+" activateProperFunctionBoy={props.add}/>}
         </div>
     </div>

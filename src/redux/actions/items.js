@@ -39,6 +39,11 @@ export function getitems(filter,valToMatch) {
         let query=null;
         if (valToMatch){
             query=database.ref("items").orderByChild(filter).equalTo(valToMatch).limitToLast(10);
+        }else if (filter==="mylist"){
+            //not implemented yet, true to 05/04/2020. maybe we can assemble all the user's assets
+            // id's and then build a query that will fetch all of it, ordered.use console.log
+            // to test the first phase of the task.
+            query=database.ref("items").orderByChild(filter).limitToLast(10);
         }else{
             query=database.ref("items").orderByChild(filter).limitToLast(10);
         }

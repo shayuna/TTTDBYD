@@ -30,6 +30,7 @@ class App extends Component{
         this.main=this.main.bind(this);
         this.editItem=this.editItem.bind(this);
         this.getPageLink=this.getPageLink.bind(this);
+        this.openMyPage=this.openMyPage.bind(this);
 
         var sUsr="";
         try{
@@ -64,7 +65,7 @@ class App extends Component{
         return (
             <Provider store={store}>
                 <article>
-                    <Header login={this.login} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} user={store.getState().user.name}/>
+                    <Header login={this.login} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} openMyPage={this.openMyPage} user={store.getState().user.name}/>
                         {this.state.screen===MAIN_SCREEN && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr}/>}
                         {this.state.screen===LOGIN_SCREEN && <Login switchToMain={this.main}/>} 
                         {this.state.screen===ABOUT_SCREEN && <About switchToMain={this.main}/>} 
@@ -117,6 +118,9 @@ class App extends Component{
         },(err)=>{
             console.error("failed to copy text to the clipboard. err is ",err);
         })
+    }
+    openMyPage(){
+        alert ("open mypage");
     }
 }
 ReactDOM.render(<App/>,document.querySelector("#eRoot"));
