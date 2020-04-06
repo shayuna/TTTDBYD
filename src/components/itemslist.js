@@ -10,12 +10,13 @@ class ItemsList extends Component {
     constructor(){
         super();
         this.state={
-            currentList:null
+            currentList:null,
         };
         this.isItemInLikes=this.isItemInLikes.bind(this);
         this.updatelikes_new=this.updatelikes_new.bind(this);
         this.setAffinity=this.setAffinity.bind(this);
         this.getAffinityValue=this.getAffinityValue.bind(this);
+        this.openMyPage=this.openMyPage.bind(this);
 
     }
     render(){
@@ -216,6 +217,9 @@ class ItemsList extends Component {
         .catch((err)=>{
             alert ("an error was detected in del item. err is - "+err);
         })
+    }
+    openMyPage(){
+        alert ("going in the right direction. such a cumbersome way of doing things. it must be easier");
     }
 };
 
