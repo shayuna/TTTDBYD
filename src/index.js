@@ -21,8 +21,8 @@ const EDIT_ITEM=5;
 const ABOUT_SCREEN=6
 
 class App extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.about=this.about.bind(this);
         this.login=this.login.bind(this);
         this.register=this.register.bind(this);
@@ -67,7 +67,7 @@ class App extends Component{
             <Provider store={store}>
                 <article>
                     <Header login={this.login} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} openMyPage={this.openMyPage} user={store.getState().user.name}/>
-                        {this.state.screen===MAIN_SCREEN && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr} ref={this.itemsListRef}/>}
+                        {this.state.screen===MAIN_SCREEN && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr} ref={this.itemsListRef} />}
                         {this.state.screen===LOGIN_SCREEN && <Login switchToMain={this.main}/>} 
                         {this.state.screen===ABOUT_SCREEN && <About switchToMain={this.main}/>} 
                         {this.state.screen===REGISTER_SCREEN && <Register switchToMain={this.main}/>}
@@ -121,8 +121,7 @@ class App extends Component{
         })
     }
     openMyPage(){
-        /* why isn't it working ? strange.*/
-        this.itemsListRef.current.openMyPage();
+        this.itemsListRef.current.getWrappedInstance().openMyPage();
     }
 }
 ReactDOM.render(<App/>,document.querySelector("#eRoot"));

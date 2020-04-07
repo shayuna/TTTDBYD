@@ -7,8 +7,8 @@ import {getitems,updatelikes,clearitems} from "../redux/actions/items";
 import {updatelikesinuser,updateAffinityVal} from "../redux/actions/user";
 
 class ItemsList extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state={
             currentList:null,
         };
@@ -254,5 +254,5 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemsList);
+export default connect(mapStateToProps, mapDispatchToProps,null,{ withRef: true })(ItemsList);
 //export default ItemsList;
