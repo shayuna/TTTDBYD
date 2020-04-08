@@ -219,7 +219,8 @@ class ItemsList extends Component {
         })
     }
     openMyPage(){
-        alert ("going in the right direction. such a cumbersome way of doing things. it must be easier");
+        this.state.currentList="mylist";
+        this.props.getitems("mylist","",this.props.user.id);
     }
 };
 
@@ -246,7 +247,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getitems: (filter,valToMatch) => dispatch(getitems(filter,valToMatch)),
+        getitems: (filter,valToMatch,sUsrId) => dispatch(getitems(filter,valToMatch,sUsrId)),
         updatelikesinuser:(id,operation)=>dispatch(updatelikesinuser(id,operation)),
         updatelikes:(id,vl)=>dispatch(updatelikes(id,vl)),
         updateAffinityVal:(id,vl)=>dispatch(updateAffinityVal(id,vl)),
