@@ -53,8 +53,8 @@ class ManageItem extends Component {
         if (!this.validate())return;
         const database = firebase.database();
         console.log("adding new item to db");
-        database.ref("items")
-        .push({
+        var oItm=database.ref("items").push();
+        oItm.set({
             caption:document.getElementById("caption").value,
             description:document.getElementById("description").value,
             likes:0,
@@ -67,7 +67,8 @@ class ManageItem extends Component {
         })
         .catch((err)=>{
             console.log ("an error was detected in add item. err is - ",err);
-        })
+        });
+        database.ref("users/"+this.props.user.id+"/authored/"+oItm.key).set("1");
     }
 }
 const styles={

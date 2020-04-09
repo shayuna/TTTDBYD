@@ -53,7 +53,8 @@ class Login extends Component {
                 const arLikes=!snapshot.val() || !snapshot.val()["likes"] ? [] : Object.keys(snapshot.val()["likes"]).map((oLikeID)=>{
                     return snapshot.val()["likes"][oLikeID].itemID;
                 });
-                this.props.setUser(document.getElementById("username").value,firebase.auth().currentUser.uid,arLikes,snapshot.val()["affinities"]);
+                const arAffinities=!snapshot.val() || !snapshot.val()["affinities"] ? [] : snapshot.val()["affinities"];
+                this.props.setUser(document.getElementById("username").value,firebase.auth().currentUser.uid,arLikes,arAffinities);
                 this.props.switchToMain();
             })
             .catch((err)=>{

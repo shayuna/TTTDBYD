@@ -51,30 +51,44 @@ export function getitems(filter,valToMatch,sUsrId) {
         .then((snapshot)=>{
             let items=[];
             if (filter==="mylist"){
-                if (snapshot.val().likes){
-                    for (var prop in snapshot.val().likes){
-                        items.push(snapshot.val().likes[prop].itemID);
+                if (snapshot.val() && snapshot.val().authored){
+                    for (var prop in snapshot.val().authored){
+                        if (!items.includes(prop))items.push(prop);
                     }
                 }
-                if (snapshot.val().affinities){
+                if (snapshot.val() && snapshot.val().likes){
+                    for (var prop in snapshot.val().likes){
+                        if (!items.includes(snapshot.val().likes[prop].itemID))items.push(snapshot.val().likes[prop].itemID);
+                    }
+                }
+                if (snapshot.val() && snapshot.val().affinities){
                     for (var prop in snapshot.val().affinities){
-                        items.push(prop);
+                        if (!items.includes(prop))items.push(prop);
                     }
                 }
                 const iTotalCount=items.length;
                 let arNewItems=[];
-                items.forEach((itm)=>{
-                    database.ref("items"+"/"+itm).once("value")
-                    .then((snapshot)=>{
-                        arNewItems.push({id:snapshot.key,...snapshot.val()});
-                        if (arNewItems.length==iTotalCount){
-                            return dispatch(getitems_success(arNewItems,filter));
-                        }
+                if (items.length>0){
+
+                    items.forEach((itm)=>{
+                        database.ref("items"+"/"+itm).once("value")
+                        .then((snapshot)=>{
+                            arNewItems.push({id:snapshot.key,...snapshot.val()});
+                            if (arNewItems.length==iTotalCount){
+                                const arAtLastItems=arNewItems.filter((elm)=>{
+                                    return elm.caption;
+                                })
+                                return dispatch(getitems_success(arAtLastItems,filter));
+                            }
+                        })
+                        .catch((err)=>{
+                            console.log("error in getting mylist in getitems in items actions in redux");
+                        })
                     })
-                    .catch((err)=>{
-                        console.log("error in getting mylist in getitems in items actions in redux");
-                    })
-                })
+                }
+                else{
+                    return dispatch(getitems_success([],filter));
+                }
 
             }else{
                 snapshot.forEach((childsnapshot)=>{
