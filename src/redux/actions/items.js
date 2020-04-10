@@ -11,7 +11,7 @@ export const getitems_success = (items,tag)=>({
     tag
 })
 
-export const clearitems = ()=>({
+export const clearItems = ()=>({
     type:"CLEAR_ITEMS",
 })
 /*
@@ -27,13 +27,13 @@ export const updatelikes = (id,likes)=>{
     };
 }
 */
-export const updatelikes = (id,vl)=>({
+export const updateLikes = (id,vl)=>({
     type:"UPDATE_LIKES",
     id,
     vl
 });
 
-export function getitems(filter,valToMatch,sUsrId) {
+export function getItems(filter,valToMatch,sUsrId) {
     return (dispatch) => {
         const database = firebase.database();
         let query=null;
@@ -74,7 +74,7 @@ export function getitems(filter,valToMatch,sUsrId) {
                         database.ref("items"+"/"+itm).once("value")
                         .then((snapshot)=>{
                             arNewItems.push({id:snapshot.key,...snapshot.val()});
-                            if (arNewItems.length==iTotalCount){
+                            if (arNewItems.length===iTotalCount){
                                 const arAtLastItems=arNewItems.filter((elm)=>{
                                     return elm.caption;
                                 })

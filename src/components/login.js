@@ -50,11 +50,7 @@ class Login extends Component {
             const query=database.ref("users").child(firebase.auth().currentUser.uid);
             query.once("value")
             .then((snapshot)=>{
-                const arLikes=!snapshot.val() || !snapshot.val()["likes"] ? [] : Object.keys(snapshot.val()["likes"]).map((oLikeID)=>{
-                    return snapshot.val()["likes"][oLikeID].itemID;
-                });
-                const arAffinities=!snapshot.val() || !snapshot.val()["affinities"] ? [] : snapshot.val()["affinities"];
-                this.props.setUser(document.getElementById("username").value,firebase.auth().currentUser.uid,arLikes,arAffinities);
+                this.props.setUser({id:firebase.auth().currentUser.uid,...snapshot.val()});
                 this.props.switchToMain();
             })
             .catch((err)=>{
@@ -125,7 +121,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser:(name,id,likes,affinities)=>dispatch(setUser(name,id,likes,affinities)),
+        setUser:(oUser)=>dispatch(setUser(oUser)),
     }
 }
 

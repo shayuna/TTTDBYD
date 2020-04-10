@@ -3,8 +3,8 @@ import firebase from "./firebase";
 import Button from "./button";
 import LikeButton from "./LikeButton";
 import {connect} from "react-redux";
-import {getitems,updatelikes,clearitems} from "../redux/actions/items";
-import {updatelikesinuser,updateAffinityVal} from "../redux/actions/user";
+import {getItems,updateLikes,clearItems} from "../redux/actions/items";
+import {updateLikesInUser,updateAffinityVal,updateAuthoredInUser} from "../redux/actions/user";
 
 class ItemsList extends Component {
     constructor(props){
@@ -41,29 +41,8 @@ class ItemsList extends Component {
             </div>
         )
     }
-
-    plusOne(e){
-        const elm=e.target;
-        const id=elm.closest(".itm").getAttribute("data-id");
-        
-        /* the registered user should be allowed to vote, so the localstorage mechanism is pretty useless ? not sure*/
-/*
-        if (localStorage.getItem("likes-"+id)==="1")return;
-        localStorage.setItem("likes-"+id,"1");
-  */      
-        //actually, you don't need here to reload the data. all you need is to add one to the likes
-//        e.target.innerHTML=parseInt(e.target.innerHTML,10)+1;
-// 15/10/2018 - one more thing. since the updatelikes has to update both users and items stores,
-// we should perform the actual db update in a neutral place, aka here.
-
-//        this.props.updatelikes(id,parseInt(elm.innerHTML,10)+1);
-        this.updatelikes(id,parseInt(elm.innerHTML,10)+1);
-        
-    }
     isItemInLikes(sItemID){
-        return this.props.user.likes.reduce((bExists1,val)=>{
-            return bExists1 || val===sItemID;
-        },false);
+        return this.props.user.likes && !!this.props.user.likes[sItemID];
     }
     getAffinityValue(sItemID){
         return this.props.user.affinities && this.props.user.affinities[sItemID] ? this.props.user.affinities[sItemID].rel : "0";
@@ -83,8 +62,8 @@ class ItemsList extends Component {
         if (sUserID){
             const database = firebase.database();
             const bExists=this.isItemInLikes(sItemID);
-            this.props.updatelikes(sItemID,bExists ? -1 : 1);
-            this.props.updatelikesinuser(sItemID,bExists ? "REMOVE" : "ADD");
+            this.props.updateLikes(sItemID,bExists ? -1 : 1);
+            this.props.updateLikesInUser(sItemID,bExists ? "REMOVE" : "ADD");
             database.ref("items/"+sItemID+"/likes").transaction(likes1=>{
                 if (!isNaN(likes1)){
                     likes1+= bExists ? -1 : 1;
@@ -114,32 +93,6 @@ class ItemsList extends Component {
                 }
             })
         }
-    }
-    updatelikes(sID,iLikes){
-//        alert (sId+" *** "+iLikes+" *** "+this.props.user.id);
-        const database = firebase.database(),sUID=this.props.user.id;
-        database.ref("items/"+sID).update({
-            likes:iLikes
-        })
-        .then(()=>{
-            database.ref("users/"+sUID+"/likes").push({
-                "itemID":sID
-            })
-            .then(()=>{
-                  this.props.updatelikes_success(sID);
-                  this.props.updatelikesinuser_success(sID);
-    //            return dispatch(updatelikes_success(id));
-            })
-            .catch((err)=>{
-                alert ("something went wrong when updating user. err is - "+err);
-            });
-
-//            return dispatch(updatelikes_success(id));
-        })
-        .catch((err)=>{
-            alert ("something went wrong when updating likes on item. err is - "+err);
-        });
-
     }
     getpopular(){
         this.getList("likes");
@@ -185,7 +138,7 @@ class ItemsList extends Component {
         if (!this.props.items[id]){
             console.log("going to db");
             this.state.currentList=id;
-            this.props.getitems(filter,valToMatch);
+            this.props.getItems(filter,valToMatch);
         }
         else{
             console.log("not going to db");
@@ -212,6 +165,7 @@ class ItemsList extends Component {
         .remove()
         .then(()=>{
             this.props.clearItems();//by this we are forcing the itemslist component to update from db
+            this.props.updateAuthoredInUser(sID,"REMOVE");
             this.getList(this.state.currentList);
         })
         .catch((err)=>{
@@ -220,7 +174,7 @@ class ItemsList extends Component {
     }
     openMyPage(){
         this.state.currentList="mylist";
-        this.props.getitems("mylist","",this.props.user.id);
+        this.props.getItems("mylist","",this.props.user.id);
     }
 };
 
@@ -247,11 +201,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getitems: (filter,valToMatch,sUsrId) => dispatch(getitems(filter,valToMatch,sUsrId)),
-        updatelikesinuser:(id,operation)=>dispatch(updatelikesinuser(id,operation)),
-        updatelikes:(id,vl)=>dispatch(updatelikes(id,vl)),
+        getItems: (filter,valToMatch,sUsrId) => dispatch(getItems(filter,valToMatch,sUsrId)),
+        updateLikesInUser:(id,operation)=>dispatch(updateLikesInUser(id,operation)),
+        updateLikes:(id,vl)=>dispatch(updateLikes(id,vl)),
         updateAffinityVal:(id,vl)=>dispatch(updateAffinityVal(id,vl)),
-        clearItems:()=>dispatch(clearitems()),
+        updateAuthoredInUser:(itemId,operation)=>dispatch(updateAuthoredInUser(itemId,operation)),
+        clearItems:()=>dispatch(clearItems()),
     };
 };
 

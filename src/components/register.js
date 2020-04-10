@@ -108,34 +108,13 @@ class Register extends Component {
             username:this.usernameRef.current.value,
         })
         .then(()=>{
+            this.props.setUser({id:firebase.auth().currentUser.uid,username:this.usernameRef.current.value});
+            this.props.switchToMain();
         })
         .catch((err)=>{
             console.log ("err in regiter_cont. err is - "+err.message);
         });
-
-       this.props.setUser(this.usernameRef.current.value,firebase.auth().currentUser.uid);
-       this.props.switchToMain();
-/*       
-        if (firebase.auth().currentUser){
-            const database = firebase.database();
-            database.ref("users").child(firebase.auth().currentUser.uid).set({
-                likes:{}
-            })
-            .then(()=>{
-                this.props.setUser(document.getElementById("username").value,firebase.auth().currentUser.uid);
-                this.props.switchToMain();
-            })
-            .catch((err)=>{
-                alert ("err in regiter_cont. err is - "+err.message);
-            });
-       }
-*/
     }
-/*
-    componentWillReceiveProps(newProps){
-        alert (newProps.user);
-    }
-*/
 }
 const styles={
     main:{
@@ -155,7 +134,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser:(name,id)=>dispatch(setUser(name,id,[])),
+        setUser:(oUser)=>dispatch(setUser(oUser)),
     }
 }
 

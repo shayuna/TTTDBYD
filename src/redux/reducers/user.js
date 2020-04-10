@@ -1,44 +1,51 @@
 
 const initialState = {
-    name:"",
-    likes:[],
-    affinities:{},
 }
 
-const userReducer = (state=initialState,{type,name,id,likes,itemId,operation,affinities,affinityId,affinityVl}) => {
+const userReducer = (state=initialState,{type,oUser,itemId,itemVal,operation}) => {
     switch (type){
         case "SET_USER":
-            return {
-                ...state,
-                name,
-                id,
-                likes,
-                affinities: affinities ? affinities : {},
-            };
+            return oUser;
         case "UPDATE_AFFINITY_VAL":
             let oAffinities={...state.affinities};
-            if (affinityVl==="0"){
-                delete oAffinities[affinityId];
+            if (itemVal==="0"){
+                delete oAffinities[itemId];
             }
             else{
-                oAffinities[affinityId]={rel:affinityVl};
+                oAffinities[itemId]={rel:itemVal};
             }
             return {
                 ...state,
                 affinities:oAffinities,
             }
-        case "UPDATE_LIKES_IN_USER":
-            switch (operation){
+        case "UPDATE_AUTHORED_IN_USER":
+            let oAuthored={...state.authored};
+            switch(operation){
                 case "ADD":
-                    return {
-                        ...state,
-                        likes:[...state.likes,itemId],
-                    }
+                    oAuthored[itemId]="1";
                     break;
                 case "REMOVE":
+                    delete oAuthored[itemId];
+                    break;
+            }
+            return {
+                ...state,
+                authored:oAuthored,
+            }
+        case "UPDATE_LIKES_IN_USER":
+            let oLikes=state.likes;
+            switch (operation){
+                case "ADD":
+                    oLikes[itemId]="1";
                     return {
                         ...state,
-                        likes:[...state.likes.filter((likeId)=>likeId!=itemId)],
+                        likes:oLikes,
+                    };
+                case "REMOVE":
+                    delete oLikes[itemId];
+                    return {
+                        ...state,
+                        likes:oLikes,
                     }
                     break;
             }

@@ -1,17 +1,18 @@
-export const setUser = (name,id,likes,affinities)=>({
+export const setUser = (oUser)=>({
     type:"SET_USER",
-    name,
-    id,
-    likes,
-    affinities
+    oUser
 });
-export const updateAffinityVal = (affinityId,affinityVl)=>({
+export const updateAffinityVal = (itemId,itemVal)=>({
     type:"UPDATE_AFFINITY_VAL",
-    affinityId,
-    affinityVl
+    itemId,
+    itemVal
 })
-
-export const updatelikesinuser = (itemId,operation)=>({
+export const updateAuthoredInUser = (itemId,operation)=>({
+    type:"UPDATE_AUTHORED_IN_USER",
+    itemId,
+    operation
+})
+export const updateLikesInUser = (itemId,operation)=>({
     type:"UPDATE_LIKES_IN_USER",
     itemId,
     operation

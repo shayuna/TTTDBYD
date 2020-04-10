@@ -1,7 +1,8 @@
 import React,{Component} from "react";
 import firebase from "./firebase";
 import {connect} from "react-redux";
-import {clearitems} from "../redux/actions/items";
+import {clearItems} from "../redux/actions/items";
+import {updateAuthoredInUser} from "../redux/actions/user";
 
 class ManageItem extends Component {
     constructor(){
@@ -69,6 +70,7 @@ class ManageItem extends Component {
             console.log ("an error was detected in add item. err is - ",err);
         });
         database.ref("users/"+this.props.user.id+"/authored/"+oItm.key).set("1");
+        this.props.updateAuthoredInUser(oItm.key,"ADD");
     }
 }
 const styles={
@@ -93,7 +95,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        clearItems:()=>dispatch(clearitems()),
+        clearItems:()=>dispatch(clearItems()),
+        updateAuthoredInUser:(itemId,operation)=>dispatch(updateAuthoredInUser(itemId,operation)),
     }
 }
 

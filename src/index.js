@@ -66,7 +66,7 @@ class App extends Component{
         return (
             <Provider store={store}>
                 <article>
-                    <Header login={this.login} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} openMyPage={this.openMyPage} user={store.getState().user.name}/>
+                    <Header login={this.login} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} openMyPage={this.openMyPage} user={store.getState().user.username}/>
                         {this.state.screen===MAIN_SCREEN && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr} ref={this.itemsListRef} />}
                         {this.state.screen===LOGIN_SCREEN && <Login switchToMain={this.main}/>} 
                         {this.state.screen===ABOUT_SCREEN && <About switchToMain={this.main}/>} 
