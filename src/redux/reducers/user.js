@@ -33,7 +33,7 @@ const userReducer = (state=initialState,{type,oUser,itemId,itemVal,operation}) =
                 authored:oAuthored,
             }
         case "UPDATE_LIKES_IN_USER":
-            let oLikes=state.likes;
+            let oLikes={...state.likes};
             switch (operation){
                 case "ADD":
                     oLikes[itemId]="1";

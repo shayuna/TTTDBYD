@@ -33,7 +33,64 @@ export const updateLikes = (id,vl)=>({
     vl
 });
 
-export function getItems(filter,valToMatch,sUsrId) {
+export function getItems(filter,valToMatch,oUser) {
+    return (dispatch) => {
+        const database = firebase.database();
+        let query=null,items=[],arNewItems=[];
+        if (filter==="mylist"){
+            for (var prop in oUser.authored){
+                if (!items.includes(prop)) items.push(prop);
+            }
+            for (var prop in oUser.affinities){
+                if (!items.includes(prop)) items.push(prop);
+            }
+            for (var prop in oUser.likes){
+                if (!items.includes(prop)) items.push(prop);
+            }
+            if (items.length>0){
+                items.forEach((itm)=>{
+                    database.ref("items"+"/"+itm).once("value")
+                    .then((snapshot)=>{
+                        arNewItems.push({id:snapshot.key,...snapshot.val()});
+                        if (arNewItems.length===items.length){
+                            const arAtLastItems=arNewItems.filter((elm)=>{
+                                return elm.caption;
+                            })
+                            return dispatch(getitems_success(arAtLastItems,filter));
+                        }
+                    })
+                    .catch((err)=>{
+                        console.log("error in getting mylist in getitems in items actions in redux");
+                    })
+                })
+            }
+
+        }
+        else{
+            if (valToMatch){
+                query=database.ref("items").orderByChild(filter).equalTo(valToMatch).limitToLast(10);
+            }else{
+                query=database.ref("items").orderByChild(filter).limitToLast(10);
+            }
+            query.once("value")
+            .then((snapshot)=>{
+                snapshot.forEach((childsnapshot)=>{
+                    items.push(
+                        {
+                            id:childsnapshot.key,
+                            ...childsnapshot.val()
+                        }                    
+                    );
+                });
+                return dispatch(getitems_success(items,valToMatch ? valToMatch : filter));
+            });
+            
+        }
+
+    }
+}
+
+export function getItems_old(filter,valToMatch,sUsrId) {
     return (dispatch) => {
         const database = firebase.database();
         let query=null;

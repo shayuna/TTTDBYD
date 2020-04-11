@@ -70,9 +70,10 @@ class ItemsList extends Component {
                 }
                 return likes1;
             })
-            database.ref("users/"+sUserID+"/likes").orderByChild("itemID").equalTo(sItemID).once("value",snapshot=>{
+            database.ref("users/"+sUserID+"/likes/"+sItemID).once("value",snapshot=>{
                 if (snapshot.exists()){
-                    database.ref("users/"+sUserID+"/likes/"+Object.keys(snapshot.val())[0]).remove()
+                    console.log ("removing like. itemID="+sItemID);
+                    database.ref("users/"+sUserID+"/likes/"+sItemID).remove()
                     .then(()=>{
                     })
                     .catch(err=>{
@@ -81,9 +82,8 @@ class ItemsList extends Component {
                     });
                 }
                 else{
-                    database.ref("users/"+sUserID+"/likes").push({
-                        "itemID":sItemID
-                    })
+                    console.log ("adding like. itemID="+sItemID);
+                    database.ref("users/"+sUserID+"/likes/"+sItemID).set("1")
                     .then(()=>{
                     })
                     .catch((err)=>{
@@ -174,7 +174,7 @@ class ItemsList extends Component {
     }
     openMyPage(){
         this.state.currentList="mylist";
-        this.props.getItems("mylist","",this.props.user.id);
+        this.props.getItems("mylist","",this.props.user);
     }
 };
 

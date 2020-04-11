@@ -54,12 +54,12 @@ class ManageItem extends Component {
         if (!this.validate())return;
         const database = firebase.database();
         console.log("adding new item to db");
-        var oItm=database.ref("items").push();
+        const oItm=database.ref("items").push();
         oItm.set({
             caption:document.getElementById("caption").value,
             description:document.getElementById("description").value,
             likes:0,
-            username:this.props.user.name,
+            username:this.props.user.username,
             userid:this.props.user.id,
         })
         .then(()=>{
