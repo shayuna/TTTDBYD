@@ -135,10 +135,10 @@ class ItemsList extends Component {
     getList(filter,valToMatch){
         // establish the list identifier to look for
         const id=valToMatch ? valToMatch : filter;
-        if (!this.props.items[id]){
-            console.log("going to db");
+        if (!this.props.items[id] || filter==="mylist"){
+            console.log("going to db, maybe :)");
             this.state.currentList=id;
-            this.props.getItems(filter,valToMatch);
+            this.props.getItems(filter,valToMatch,this.props.user,this.props.items);
         }
         else{
             console.log("not going to db");
@@ -173,8 +173,7 @@ class ItemsList extends Component {
         })
     }
     openMyPage(){
-        this.state.currentList="mylist";
-        this.props.getItems("mylist","",this.props.user);
+        this.getList("mylist");
     }
 };
 
@@ -201,7 +200,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getItems: (filter,valToMatch,sUsrId) => dispatch(getItems(filter,valToMatch,sUsrId)),
+        getItems: (filter,valToMatch,oUser,oItems) => dispatch(getItems(filter,valToMatch,oUser,oItems)),
         updateLikesInUser:(id,operation)=>dispatch(updateLikesInUser(id,operation)),
         updateLikes:(id,vl)=>dispatch(updateLikes(id,vl)),
         updateAffinityVal:(id,vl)=>dispatch(updateAffinityVal(id,vl)),

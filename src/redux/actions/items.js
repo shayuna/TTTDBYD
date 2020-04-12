@@ -14,59 +14,78 @@ export const getitems_success = (items,tag)=>({
 export const clearItems = ()=>({
     type:"CLEAR_ITEMS",
 })
-/*
 
-export const updatelikes = (id,likes)=>{
-    return (dispatch) => {
-        const database = firebase.database();
-        database.ref("items/"+id).update({
-            likes
-        },()=>{
-            return dispatch(updatelikes_success(id));
-        });
-    };
-}
-*/
 export const updateLikes = (id,vl)=>({
     type:"UPDATE_LIKES",
     id,
     vl
 });
 
-export function getItems(filter,valToMatch,oUser) {
+function insertItmIfExistsLocally(arNewItems,sItmId,oItems){
+    let bFound=false,sCtgId;
+    for (sCtgId in oItems){
+        if (!bFound){
+            oItems[sCtgId].forEach((oItm)=>{
+                if (oItm.id===sItmId){
+                    arNewItems.push(oItm);
+                    bFound=true;
+                    return false;
+                }
+            });
+        }
+    }
+    return bFound;
+}
+
+export function getItems(filter,valToMatch,oUser,oItems) {
     return (dispatch) => {
         const database = firebase.database();
-        let query=null,items=[],arNewItems=[];
+        let query=null,items=[],arNewItems=[],prop,iIndx;
         if (filter==="mylist"){
-            for (var prop in oUser.authored){
+            for (prop in oUser.authored){
                 if (!items.includes(prop)) items.push(prop);
             }
-            for (var prop in oUser.affinities){
+            for (prop in oUser.affinities){
                 if (!items.includes(prop)) items.push(prop);
             }
-            for (var prop in oUser.likes){
+            for (prop in oUser.likes){
                 if (!items.includes(prop)) items.push(prop);
             }
             if (items.length>0){
-                items.forEach((itm)=>{
-                    database.ref("items"+"/"+itm).once("value")
-                    .then((snapshot)=>{
-                        arNewItems.push({id:snapshot.key,...snapshot.val()});
-                        if (arNewItems.length===items.length){
-                            const arAtLastItems=arNewItems.filter((elm)=>{
-                                return elm.caption;
-                            })
-                            return dispatch(getitems_success(arAtLastItems,filter));
-                        }
+                console.log ("got some items locally");
+                for (iIndx=0;iIndx<items.length;iIndx++){
+                    if (insertItmIfExistsLocally(arNewItems,items[iIndx],oItems)){
+                        items.splice(iIndx,1);
+                        iIndx--;
+                        console.log ("got it locally - "+items[iIndx]);
+                    };
+                }
+                if (items.length>0){
+                    console.log ("something found in db");
+                    items.forEach((itm)=>{
+                        database.ref("items"+"/"+itm).once("value")
+                        .then((snapshot)=>{
+                            arNewItems.push({id:snapshot.key,...snapshot.val()});
+                            if (arNewItems.length===items.length){
+                                const arAtLastItems=arNewItems.filter((elm)=>{
+                                    return elm.caption;
+                                })
+                                return dispatch(getitems_success(arAtLastItems,filter));
+                            }
+                        })
+                        .catch((err)=>{
+                            console.log("error in getting mylist in getitems in items actions in redux");
+                        })
                     })
-                    .catch((err)=>{
-                        console.log("error in getting mylist in getitems in items actions in redux");
-                    })
-                })
+                }
+            }
+            else{
+                return dispatch(getitems_success([],filter));
             }
 
         }
         else{
+            console.log ("filter="+filter+" *** valtomatch="+valToMatch);
             if (valToMatch){
                 query=database.ref("items").orderByChild(filter).equalTo(valToMatch).limitToLast(10);
             }else{
@@ -88,79 +107,4 @@ export function getItems(filter,valToMatch,oUser) {
         }
 
     }
-}
-
-export function getItems_old(filter,valToMatch,sUsrId) {
-    return (dispatch) => {
-        const database = firebase.database();
-        let query=null;
-        if (valToMatch){
-            query=database.ref("items").orderByChild(filter).equalTo(valToMatch).limitToLast(10);
-        }else if (filter==="mylist"){
-            //not implemented yet, true to 05/04/2020. maybe we can assemble all the user's assets
-            // id's and then build a query that will fetch all of it, ordered.use console.log
-            // to test the first phase of the task.
-            query=database.ref("users/"+sUsrId);
-        }else{
-            query=database.ref("items").orderByChild(filter).limitToLast(10);
-        }
-        query.once("value")
-        .then((snapshot)=>{
-            let items=[];
-            if (filter==="mylist"){
-                if (snapshot.val() && snapshot.val().authored){
-                    for (var prop in snapshot.val().authored){
-                        if (!items.includes(prop))items.push(prop);
-                    }
-                }
-                if (snapshot.val() && snapshot.val().likes){
-                    for (var prop in snapshot.val().likes){
-                        if (!items.includes(snapshot.val().likes[prop].itemID))items.push(snapshot.val().likes[prop].itemID);
-                    }
-                }
-                if (snapshot.val() && snapshot.val().affinities){
-                    for (var prop in snapshot.val().affinities){
-                        if (!items.includes(prop))items.push(prop);
-                    }
-                }
-                const iTotalCount=items.length;
-                let arNewItems=[];
-                if (items.length>0){
-
-                    items.forEach((itm)=>{
-                        database.ref("items"+"/"+itm).once("value")
-                        .then((snapshot)=>{
-                            arNewItems.push({id:snapshot.key,...snapshot.val()});
-                            if (arNewItems.length===iTotalCount){
-                                const arAtLastItems=arNewItems.filter((elm)=>{
-                                    return elm.caption;
-                                })
-                                return dispatch(getitems_success(arAtLastItems,filter));
-                            }
-                        })
-                        .catch((err)=>{
-                            console.log("error in getting mylist in getitems in items actions in redux");
-                        })
-                    })
-                }
-                else{
-                    return dispatch(getitems_success([],filter));
-                }
-
-            }else{
-                snapshot.forEach((childsnapshot)=>{
-                    items.push(
-                        {
-                            id:childsnapshot.key,
-                            ...childsnapshot.val()
-                        }                    
-                    );
-                });
-                return dispatch(getitems_success(items,valToMatch ? valToMatch : filter));
-            }
-        })
-        .catch((err)=>{
-            console.log ("error in loading data. err is - ",err);
-        });
-    };
 }
