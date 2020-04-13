@@ -51,13 +51,11 @@ export function getItems(filter,valToMatch,oUser,oItems) {
             for (prop in oUser.likes){
                 if (!items.includes(prop)) items.push(prop);
             }
-            if (items.length>0){
-                console.log ("got some items locally");
+            while (items.length>0){
                 for (iIndx=0;iIndx<items.length;iIndx++){
                     if (insertItmIfExistsLocally(arNewItems,items[iIndx],oItems)){
                         items.splice(iIndx,1);
                         iIndx--;
-                        console.log ("got it locally - "+items[iIndx]);
                     };
                 }
                 if (items.length>0){
@@ -79,10 +77,7 @@ export function getItems(filter,valToMatch,oUser,oItems) {
                     })
                 }
             }
-            else{
-                return dispatch(getitems_success([],filter));
-            }
-
+            return dispatch(getitems_success(arNewItems,filter));
         }
         else{
             console.log ("filter="+filter+" *** valtomatch="+valToMatch);
@@ -103,7 +98,6 @@ export function getItems(filter,valToMatch,oUser,oItems) {
                 });
                 return dispatch(getitems_success(items,valToMatch ? valToMatch : filter));
             });
-            
         }
 
     }

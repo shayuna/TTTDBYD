@@ -56,6 +56,7 @@ class ItemsList extends Component {
         }
     }
     updatelikes_new(itmID,likesNum){
+        console.log ("updating likes.likesNum="+likesNum);
         const sUserID=this.props.user.id;
         const sItemID=itmID;
         const iLikes=parseInt(likesNum,10);

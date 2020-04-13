@@ -47,7 +47,6 @@ const userReducer = (state=initialState,{type,oUser,itemId,itemVal,operation}) =
                         ...state,
                         likes:oLikes,
                     }
-                    break;
             }
         default:
             return state;
