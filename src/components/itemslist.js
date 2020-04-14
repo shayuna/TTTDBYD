@@ -20,21 +20,27 @@ class ItemsList extends Component {
 
     }
     render(){
+        let iAuthored=0,iAfiiliated=0,iLiked=0;
         return (
             <div className="itemsList">
                 {
                     this.state.currentList && this.props.items[this.state.currentList] && this.props.items[this.state.currentList].map((itm,ii)=>(
-                        <article style={styles.itmStyle} className="itm" key={ii} data-id={itm.id}>
-                            <div className="hdr">{itm.caption}</div>
-                            <div className="content">{itm.description}</div>
-                            <div className="interactivePanel">
-                                <Button caption={itm.username} withBorder="1" activateProperFunctionBoy={(event)=>{this.getList("username",itm.username)}}/>
-                                <LikeButton caption={itm.likes} itmID={itm.id} isItmInLikes={this.isItemInLikes(itm.id)} updateLikes={this.updatelikes_new}/>
-                                {itm.userid===this.props.user.id && <Button caption="Edit" withBorder="1" activateProperFunctionBoy={()=>this.editItem(itm.id,itm.caption,itm.description)}/>}
-                                {itm.userid===this.props.user.id && <Button caption="Del" withBorder="1" activateProperFunctionBoy={()=>this.delItem(itm.id)}/>}
-                                <select className="action" value={this.getAffinityValue(itm.id)} onChange={(e)=>this.setAffinity(itm.id,e.target)} disabled={!this.props.user.id ? "disabled" : ""}><option value="0">not for me</option><option value="1">want to</option><option value="2">did it</option><option value="3">doing it</option></select>
-                            </div>
-                        </article>
+                        <div>
+                            {this.state.currentList==="mylist" && !!this.props.user.authored[itm.id] && ++iAuthored===1  && <div className="ctgCaption">authored</div>}
+                            {this.state.currentList==="mylist" && !!this.props.user.affinities[itm.id] && !this.props.user.authored[itm.id] && ++iAfiiliated===1  && <div className="ctgCaption">serious about</div>}
+                            {this.state.currentList==="mylist" && !!this.props.user.likes[itm.id] && !this.props.user.authored[itm.id] && !this.props.user.affinities[itm.id] && ++iLiked===1  && <div className="ctgCaption">likes</div>}
+                            <article style={styles.itmStyle} className="itm" key={ii} data-id={itm.id}>
+                                <div className="hdr">{itm.caption}</div>
+                                <div className="content">{itm.description}</div>
+                                <div className="interactivePanel">
+                                    <Button caption={itm.username} withBorder="1" activateProperFunctionBoy={(event)=>{this.getList("username",itm.username)}}/>
+                                    <LikeButton caption={itm.likes} itmID={itm.id} isItmInLikes={this.isItemInLikes(itm.id)} updateLikes={this.updatelikes_new}/>
+                                    {itm.userid===this.props.user.id && <Button caption="Edit" withBorder="1" activateProperFunctionBoy={()=>this.editItem(itm.id,itm.caption,itm.description)}/>}
+                                    {itm.userid===this.props.user.id && <Button caption="Del" withBorder="1" activateProperFunctionBoy={()=>this.delItem(itm.id)}/>}
+                                    <select className="action" value={this.getAffinityValue(itm.id)} onChange={(e)=>this.setAffinity(itm.id,e.target)} disabled={!this.props.user.id ? "disabled" : ""}><option value="0">not for me</option><option value="1">want to</option><option value="2">did it</option><option value="3">doing it</option></select>
+                                </div>
+                            </article>
+                        </div>
                     ))
                 }
                 <button onClick={()=>this.getpopular()}>popular</button>

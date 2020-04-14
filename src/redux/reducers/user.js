@@ -37,16 +37,14 @@ const userReducer = (state=initialState,{type,oUser,itemId,itemVal,operation}) =
             switch (operation){
                 case "ADD":
                     oLikes[itemId]="1";
-                    return {
-                        ...state,
-                        likes:oLikes,
-                    };
+                    break;
                 case "REMOVE":
                     delete oLikes[itemId];
-                    return {
-                        ...state,
-                        likes:oLikes,
-                    }
+                    break;
+            };
+            return {
+                ...state,
+                likes:oLikes,
             }
         default:
             return state;
