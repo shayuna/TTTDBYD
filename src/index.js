@@ -19,6 +19,7 @@ const MAIN_SCREEN=3;
 const ADD_ITEM=4;
 const EDIT_ITEM=5;
 const ABOUT_SCREEN=6
+const MY_PAGE=7;
 
 class App extends Component{
     constructor(props){
@@ -66,8 +67,8 @@ class App extends Component{
         return (
             <Provider store={store}>
                 <article>
-                    <Header login={this.login} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} openMyPage={this.openMyPage} user={store.getState().user.username}/>
-                        {this.state.screen===MAIN_SCREEN && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr} ref={this.itemsListRef} />}
+                    <Header login={this.login} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} openMyPage={this.openMyPage} user={store.getState().user.username} isMyPage={this.state.screen===MY_PAGE}/>
+                        {(this.state.screen===MAIN_SCREEN || this.state.screen===MY_PAGE) && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr} ref={this.itemsListRef} />}
                         {this.state.screen===LOGIN_SCREEN && <Login switchToMain={this.main}/>} 
                         {this.state.screen===ABOUT_SCREEN && <About switchToMain={this.main}/>} 
                         {this.state.screen===REGISTER_SCREEN && <Register switchToMain={this.main}/>}
@@ -113,7 +114,7 @@ class App extends Component{
         });
     }
     getPageLink(){
-        navigator.clipboard.writeText(window.location.href+"?usr="+store.getState().user.name)
+        navigator.clipboard.writeText(window.location.href+"?usr="+store.getState().user.username)
         .then(()=>{
             alert ("the url has been copied to the clipboard");
         },(err)=>{
@@ -121,6 +122,9 @@ class App extends Component{
         })
     }
     openMyPage(){
+        this.setState({
+            screen:MY_PAGE,
+        });
         this.itemsListRef.current.getWrappedInstance().openMyPage();
     }
 }
