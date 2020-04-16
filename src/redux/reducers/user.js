@@ -6,7 +6,7 @@ const userReducer = (state=initialState,{type,oUser,itemId,itemVal,operation}) =
     switch (type){
         case "SET_USER":
             return oUser;
-        case "UPDATE_AFFINITY_VAL":
+        case "UPDATE_AFFINITY_VAL_IN_USER":
             let oAffinities={...state.affinities};
             if (itemVal==="0"){
                 delete oAffinities[itemId];

@@ -4,7 +4,7 @@ import Button from "./button";
 import LikeButton from "./LikeButton";
 import {connect} from "react-redux";
 import {getItems,updateLikes,clearItems} from "../redux/actions/items";
-import {updateLikesInUser,updateAffinityVal,updateAuthoredInUser} from "../redux/actions/user";
+import {updateLikesInUser,updateAffinityValInUser,updateAuthoredInUser} from "../redux/actions/user";
 
 class ItemsList extends Component {
     constructor(props){
@@ -26,9 +26,9 @@ class ItemsList extends Component {
                 {
                     this.state.currentList && this.props.items[this.state.currentList] && this.props.items[this.state.currentList].map((itm,ii)=>(
                         <div>
-                            {this.state.currentList==="mylist" && !!this.props.user.authored[itm.id] && ++iAuthored===1  && <div className="ctgCaption">authored</div>}
-                            {this.state.currentList==="mylist" && !!this.props.user.affinities[itm.id] && !this.props.user.authored[itm.id] && ++iAfiiliated===1  && <div className="ctgCaption">serious about</div>}
-                            {this.state.currentList==="mylist" && !!this.props.user.likes[itm.id] && !this.props.user.authored[itm.id] && !this.props.user.affinities[itm.id] && ++iLiked===1  && <div className="ctgCaption">likes</div>}
+                            {this.state.currentList==="mylist" && this.props.user.authored && !!this.props.user.authored[itm.id] && ++iAuthored===1  && <div className="ctgCaption">authored</div>}
+                            {this.state.currentList==="mylist" && this.props.user.affinities && !!this.props.user.affinities[itm.id] && (!this.props.user.authored || !this.props.user.authored[itm.id]) && ++iAfiiliated===1  && <div className="ctgCaption">serious about</div>}
+                            {this.state.currentList==="mylist" && this.props.user.likes && !!this.props.user.likes[itm.id] && (!this.props.user.authored || !this.props.user.authored[itm.id]) && (!this.props.user.affinities || !this.props.user.affinities[itm.id]) && ++iLiked===1  && <div className="ctgCaption">likes</div>}
                             <article style={styles.itmStyle} className="itm" key={ii} data-id={itm.id}>
                                 <div className="hdr">{itm.caption}</div>
                                 <div className="content">{itm.description}</div>
@@ -56,9 +56,18 @@ class ItemsList extends Component {
     setAffinity(sItemID,elm){
         if (!!this.props.user.id){
             const oDB=firebase.database();
+            const iAddOrRemoveVl=this.props.user.affinities && this.props.user.affinities[sItemID] && elm.value==="0" ? -1 : (!this.props.user.affinities || !this.props.user.affinities[sItemID]) && elm.value!=="0" ? 1 : 0;
+            oDB.ref("items/"+sItemID+"/affinities").transaction(iAffinitiesNum=>{
+                if (!isNaN(iAffinitiesNum)){
+                    iAffinitiesNum+= iAddOrRemoveVl;
+                }
+                return iAffinitiesNum;
+            });
             oDB.ref("users/"+this.props.user.id+"/affinities/"+sItemID).remove();
             if (elm.value!=="0")oDB.ref("users/"+this.props.user.id+"/affinities/"+sItemID).set({rel:elm.value});
-            this.props.updateAffinityVal(sItemID,elm.value);
+            
+            
+            this.props.updateAffinityValInUser(sItemID,elm.value);
         }
     }
     updatelikes_new(itmID,likesNum){
@@ -76,7 +85,7 @@ class ItemsList extends Component {
                     likes1+= bExists ? -1 : 1;
                 }
                 return likes1;
-            })
+            });
             database.ref("users/"+sUserID+"/likes/"+sItemID).once("value",snapshot=>{
                 if (snapshot.exists()){
                     console.log ("removing like. itemID="+sItemID);
@@ -210,7 +219,7 @@ const mapDispatchToProps = (dispatch) => {
         getItems: (filter,valToMatch,oUser,oItems) => dispatch(getItems(filter,valToMatch,oUser,oItems)),
         updateLikesInUser:(id,operation)=>dispatch(updateLikesInUser(id,operation)),
         updateLikes:(id,vl)=>dispatch(updateLikes(id,vl)),
-        updateAffinityVal:(id,vl)=>dispatch(updateAffinityVal(id,vl)),
+        updateAffinityValInUser:(id,vl)=>dispatch(updateAffinityValInUser(id,vl)),
         updateAuthoredInUser:(itemId,operation)=>dispatch(updateAuthoredInUser(itemId,operation)),
         clearItems:()=>dispatch(clearItems()),
     };

@@ -59,6 +59,7 @@ class ManageItem extends Component {
             caption:document.getElementById("caption").value,
             description:document.getElementById("description").value,
             likes:0,
+            affinities:0,
             username:this.props.user.username,
             userid:this.props.user.id,
         })

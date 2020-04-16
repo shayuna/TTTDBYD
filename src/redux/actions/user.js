@@ -2,8 +2,8 @@ export const setUser = (oUser)=>({
     type:"SET_USER",
     oUser
 });
-export const updateAffinityVal = (itemId,itemVal)=>({
-    type:"UPDATE_AFFINITY_VAL",
+export const updateAffinityValInUser = (itemId,itemVal)=>({
+    type:"UPDATE_AFFINITY_VAL_IN_USER",
     itemId,
     itemVal
 })
