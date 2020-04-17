@@ -21,6 +21,12 @@ export const updateLikes = (id,vl)=>({
     vl
 });
 
+export const updateAffinities = (id,vl)=>({
+    type:"UPDATE_AFFINITIES",
+    id,
+    vl
+});
+
 function insertItmIfExistsLocally(arNewItems,sItmId,oItems){
     let bFound=false,sCtgId;
     for (sCtgId in oItems){
@@ -51,7 +57,7 @@ export function getItems(filter,valToMatch,oUser,oItems) {
             for (prop in oUser.likes){
                 if (!items.includes(prop)) items.push(prop);
             }
-            while (items.length>0){
+            if (items.length>0){
                 for (iIndx=0;iIndx<items.length;iIndx++){
                     if (insertItmIfExistsLocally(arNewItems,items[iIndx],oItems)){
                         items.splice(iIndx,1);

@@ -3,7 +3,7 @@ import firebase from "./firebase";
 import Button from "./button";
 import LikeButton from "./LikeButton";
 import {connect} from "react-redux";
-import {getItems,updateLikes,clearItems} from "../redux/actions/items";
+import {getItems,updateLikes,updateAffinities,clearItems} from "../redux/actions/items";
 import {updateLikesInUser,updateAffinityValInUser,updateAuthoredInUser} from "../redux/actions/user";
 
 class ItemsList extends Component {
@@ -25,11 +25,11 @@ class ItemsList extends Component {
             <div className="itemsList">
                 {
                     this.state.currentList && this.props.items[this.state.currentList] && this.props.items[this.state.currentList].map((itm,ii)=>(
-                        <div>
+                        <div key={ii}>
                             {this.state.currentList==="mylist" && this.props.user.authored && !!this.props.user.authored[itm.id] && ++iAuthored===1  && <div className="ctgCaption">authored</div>}
                             {this.state.currentList==="mylist" && this.props.user.affinities && !!this.props.user.affinities[itm.id] && (!this.props.user.authored || !this.props.user.authored[itm.id]) && ++iAfiiliated===1  && <div className="ctgCaption">serious about</div>}
                             {this.state.currentList==="mylist" && this.props.user.likes && !!this.props.user.likes[itm.id] && (!this.props.user.authored || !this.props.user.authored[itm.id]) && (!this.props.user.affinities || !this.props.user.affinities[itm.id]) && ++iLiked===1  && <div className="ctgCaption">likes</div>}
-                            <article style={styles.itmStyle} className="itm" key={ii} data-id={itm.id}>
+                            <article style={styles.itmStyle} className="itm" data-id={itm.id}>
                                 <div className="hdr">{itm.caption}</div>
                                 <div className="content">{itm.description}</div>
                                 <div className="interactivePanel">
@@ -65,8 +65,7 @@ class ItemsList extends Component {
             });
             oDB.ref("users/"+this.props.user.id+"/affinities/"+sItemID).remove();
             if (elm.value!=="0")oDB.ref("users/"+this.props.user.id+"/affinities/"+sItemID).set({rel:elm.value});
-            
-            
+            this.props.updateAffinities(sItemID,iAddOrRemoveVl);
             this.props.updateAffinityValInUser(sItemID,elm.value);
         }
     }
@@ -151,6 +150,7 @@ class ItemsList extends Component {
     getList(filter,valToMatch){
         // establish the list identifier to look for
         const id=valToMatch ? valToMatch : filter;
+        if (filter!=="mylist")this.props.setScreenToMain();
         if (!this.props.items[id] || filter==="mylist"){
             console.log("going to db, maybe :)");
             this.state.currentList=id;
@@ -219,6 +219,7 @@ const mapDispatchToProps = (dispatch) => {
         getItems: (filter,valToMatch,oUser,oItems) => dispatch(getItems(filter,valToMatch,oUser,oItems)),
         updateLikesInUser:(id,operation)=>dispatch(updateLikesInUser(id,operation)),
         updateLikes:(id,vl)=>dispatch(updateLikes(id,vl)),
+        updateAffinities:(id,vl)=>dispatch(updateAffinities(id,vl)),
         updateAffinityValInUser:(id,vl)=>dispatch(updateAffinityValInUser(id,vl)),
         updateAuthoredInUser:(itemId,operation)=>dispatch(updateAuthoredInUser(itemId,operation)),
         clearItems:()=>dispatch(clearItems()),

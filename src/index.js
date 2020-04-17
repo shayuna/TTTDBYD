@@ -32,6 +32,7 @@ class App extends Component{
         this.editItem=this.editItem.bind(this);
         this.getPageLink=this.getPageLink.bind(this);
         this.openMyPage=this.openMyPage.bind(this);
+        this.setScreenToMain=this.setScreenToMain.bind(this);
         this.itemsListRef=React.createRef();
 
         var sUsr="";
@@ -68,7 +69,7 @@ class App extends Component{
             <Provider store={store}>
                 <article>
                     <Header login={this.login} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} openMyPage={this.openMyPage} user={store.getState().user.username} isMyPage={this.state.screen===MY_PAGE}/>
-                        {(this.state.screen===MAIN_SCREEN || this.state.screen===MY_PAGE) && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr} ref={this.itemsListRef} />}
+                        {(this.state.screen===MAIN_SCREEN || this.state.screen===MY_PAGE) && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr} ref={this.itemsListRef} setScreenToMain={()=>this.setScreenToMain()}/>}
                         {this.state.screen===LOGIN_SCREEN && <Login switchToMain={this.main}/>} 
                         {this.state.screen===ABOUT_SCREEN && <About switchToMain={this.main}/>} 
                         {this.state.screen===REGISTER_SCREEN && <Register switchToMain={this.main}/>}
@@ -120,6 +121,11 @@ class App extends Component{
         },(err)=>{
             console.error("failed to copy text to the clipboard. err is ",err);
         })
+    }
+    setScreenToMain(){
+        this.setState({
+            screen:MAIN_SCREEN,
+        });
     }
     openMyPage(){
         this.setState({

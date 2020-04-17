@@ -9,6 +9,7 @@ const initialState = {
 
 const itemsReducer = (state=initialState,{type,tag,items,id,vl}) => {
     let arConsumed=[];//#1
+    let objToRet1;
     switch (type){
         case "CLEAR_ITEMS":
             return {};
@@ -19,7 +20,7 @@ const itemsReducer = (state=initialState,{type,tag,items,id,vl}) => {
             objToRet[tag]=items;
             return objToRet;
         case "UPDATE_LIKES":
-            let objToRet1={
+            objToRet1={
                 ...state,
             };
             for (const prop in objToRet1){
@@ -27,6 +28,21 @@ const itemsReducer = (state=initialState,{type,tag,items,id,vl}) => {
                     objToRet1[prop].forEach((itm,ii)=>{
                         if (itm.id===id && !arConsumed.includes(itm.id)){
                             itm.likes+=vl;
+                            arConsumed.push((itm.id));
+                        }
+                    })
+                }
+            };
+            return objToRet1;
+        case "UPDATE_AFFINITIES":
+            objToRet1={
+                ...state,
+            };
+            for (const prop in objToRet1){
+                if (Array.isArray(objToRet1[prop])){
+                    objToRet1[prop].forEach((itm,ii)=>{
+                        if (itm.id===id && !arConsumed.includes(itm.id)){
+                            itm.affinities+=vl;
                             arConsumed.push((itm.id));
                         }
                     })
