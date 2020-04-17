@@ -5,7 +5,7 @@ import LikeButton from "./LikeButton";
 import {connect} from "react-redux";
 import {getItems,updateLikes,updateAffinities,clearItems} from "../redux/actions/items";
 import {updateLikesInUser,updateAffinityValInUser,updateAuthoredInUser} from "../redux/actions/user";
-
+import {MAIN_SCREEN,MY_PAGE} from "../constants.js";
 class ItemsList extends Component {
     constructor(props){
         super(props);
@@ -150,7 +150,12 @@ class ItemsList extends Component {
     getList(filter,valToMatch){
         // establish the list identifier to look for
         const id=valToMatch ? valToMatch : filter;
-        if (filter!=="mylist")this.props.setScreenToMain();
+        if (filter!=="mylist"){
+            this.props.setScreen(MAIN_SCREEN);
+        }
+        else{
+            this.props.setScreen(MY_PAGE);
+        }
         if (!this.props.items[id] || filter==="mylist"){
             console.log("going to db, maybe :)");
             this.state.currentList=id;

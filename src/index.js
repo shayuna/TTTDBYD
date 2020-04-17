@@ -9,17 +9,11 @@ import Register from "./components/register";
 import ManageItem from "./components/manageitem";
 import configureStore from "./redux/store/configurestore";
 import firebase from "firebase";
+import {LOGIN_SCREEN,REGISTER_SCREEN,MAIN_SCREEN,ADD_ITEM,EDIT_ITEM,ABOUT_SCREEN,MY_PAGE} from "./constants.js";
 import "./styles/style.scss?v=020219_1";
 import "./styles/normalize.css?v=020219_1";
-const store = configureStore();
 
-const LOGIN_SCREEN=1;
-const REGISTER_SCREEN=2;
-const MAIN_SCREEN=3;
-const ADD_ITEM=4;
-const EDIT_ITEM=5;
-const ABOUT_SCREEN=6
-const MY_PAGE=7;
+const store = configureStore();
 
 class App extends Component{
     constructor(props){
@@ -32,7 +26,7 @@ class App extends Component{
         this.editItem=this.editItem.bind(this);
         this.getPageLink=this.getPageLink.bind(this);
         this.openMyPage=this.openMyPage.bind(this);
-        this.setScreenToMain=this.setScreenToMain.bind(this);
+        this.setScreen=this.setScreen.bind(this);
         this.itemsListRef=React.createRef();
 
         var sUsr="";
@@ -69,7 +63,7 @@ class App extends Component{
             <Provider store={store}>
                 <article>
                     <Header login={this.login} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} openMyPage={this.openMyPage} user={store.getState().user.username} isMyPage={this.state.screen===MY_PAGE}/>
-                        {(this.state.screen===MAIN_SCREEN || this.state.screen===MY_PAGE) && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr} ref={this.itemsListRef} setScreenToMain={()=>this.setScreenToMain()}/>}
+                        {(this.state.screen===MAIN_SCREEN || this.state.screen===MY_PAGE) && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr} ref={this.itemsListRef} setScreen={(iScrn)=>this.setScreen(iScrn)}/>}
                         {this.state.screen===LOGIN_SCREEN && <Login switchToMain={this.main}/>} 
                         {this.state.screen===ABOUT_SCREEN && <About switchToMain={this.main}/>} 
                         {this.state.screen===REGISTER_SCREEN && <Register switchToMain={this.main}/>}
@@ -122,15 +116,12 @@ class App extends Component{
             console.error("failed to copy text to the clipboard. err is ",err);
         })
     }
-    setScreenToMain(){
+    setScreen(iScrn){
         this.setState({
-            screen:MAIN_SCREEN,
+            screen:iScrn,
         });
     }
     openMyPage(){
-        this.setState({
-            screen:MY_PAGE,
-        });
         this.itemsListRef.current.getWrappedInstance().openMyPage();
     }
 }
