@@ -202,7 +202,7 @@ class ItemsList extends Component {
         .then(snapshot=>{
             if (snapshot.val()){
                 if (snapshot.val().likes>0 || snapshot.val.affinities>0){
-                    oDB.ref("items/"+sID).set({...snapshot.val(),userid:"",username:"J.Doe"});
+                    oDB.ref("items/"+sID).set({...snapshot.val(),userid:"",username:"N.Dream"});
                 }
                 else{
                     oDB.ref("items/"+sID).remove();
