@@ -67,7 +67,8 @@ class ItemsList extends Component {
             if (elm.value!=="0")oDB.ref("users/"+this.props.user.id+"/affinities/"+sItemID).set({rel:elm.value});
             this.props.updateAffinities(sItemID,iAddOrRemoveVl);
             this.props.updateAffinityValInUser(sItemID,elm.value);
-        }
+            if (this.state.currentList==="mylist")window.setTimeout(()=>this.openMyPage(),100);//reopen mypg after changes.
+}
     }
     updatelikes_new(itmID,likesNum){
         console.log ("updating likes.likesNum="+likesNum);
@@ -79,6 +80,7 @@ class ItemsList extends Component {
             const bExists=this.isItemInLikes(sItemID);
             this.props.updateLikes(sItemID,bExists ? -1 : 1);
             this.props.updateLikesInUser(sItemID,bExists ? "REMOVE" : "ADD");
+            if (this.state.currentList==="mylist")window.setTimeout(()=>this.openMyPage(),100);//reopen mypg after changes.
             database.ref("items/"+sItemID+"/likes").transaction(likes1=>{
                 if (!isNaN(likes1)){
                     likes1+= bExists ? -1 : 1;
@@ -178,12 +180,37 @@ class ItemsList extends Component {
         this.setState();
     }
     editItem(sID,sCaption,sDescription){
-        this.props.editItem(sID,sCaption,sDescription);
+
+        var oDB=firebase.database();
+        oDB.ref("items/"+sID)
+        .once("value")
+        .then(snapshot=>{
+            if (snapshot.val()){
+                if (snapshot.val().likes>0 || snapshot.val.affinities>0){
+                    alert ("sorry. this one is on the to do list of at least one other dreamer. let's not mess with her dreams");
+                }
+                else{
+                    this.props.editItem(sID,sCaption,sDescription);
+                }
+            }
+        })
     }
     delItem(sID){
-        const database = firebase.database();
-        database.ref("items/"+sID)
-        .remove()
+        const oDB = firebase.database();
+        oDB.ref("items/"+sID)
+        .once("value")
+        .then(snapshot=>{
+            if (snapshot.val()){
+                if (snapshot.val().likes>0 || snapshot.val.affinities>0){
+                    oDB.ref("items/"+sID).set({...snapshot.val(),userid:"",username:"J.Doe"});
+                }
+                else{
+                    oDB.ref("items/"+sID).remove();
+                }
+                oDB.ref("users/"+this.props.user.id+"/authored/"+sID).remove();
+            }
+
+        })
         .then(()=>{
             this.props.clearItems();//by this we are forcing the itemslist component to update from db
             this.props.updateAuthoredInUser(sID,"REMOVE");

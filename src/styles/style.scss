@@ -8,11 +8,21 @@ html,body{
 input,textarea,select{
     box-sizing:border-box;
 }
+.appHdr .menu{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+}
+.appHdr .menu .greetings{
+    flex-grow:1;
+}
 .ctgCaption{
     margin:1rem 0.5rem 0.5rem 0.5rem;
     font-size:1.2rem;
 }
-
+.itemsList :first-child .ctgCaption{
+    margin-top:0.5rem !important;
+}
 .itm{
     margin:0.1rem;
     padding:0.5rem;
@@ -105,16 +115,6 @@ input,textarea,select{
         font-size:3rem;
         font-weight:bold;
     }
-    .appHdr{
-    }
-    .appHdr .menu{
-        display:flex;
-        justify-content:flex-end;
-        align-items:center;
-    }
-    .appHdr .menu .greetings{
-        margin-right:auto;
-    }
     .itm>.interactivePanel{
         grid-template-columns:repeat(5,auto);
     }
@@ -129,8 +129,11 @@ input,textarea,select{
     }
 }
 @media screen and (max-width:480px){
+    body,html{
+        margin:0.2rem;
+    }
     .appLogo{
-        font-size:2rem;
+        font-size:1.7rem;
         font-weight:bold;
     }
     .itm>.interactivePanel{
@@ -140,13 +143,4 @@ input,textarea,select{
     .itm>.interactivePanel>.action{
         padding:0.5rem;
     }
-    .appHdr .menu{
-        display:flex;
-        flex-direction:column;
-        align-items:flex-start;
-    }
-    .menu .greetings{
-        margin:0.5rem;
-    }
- 
 }
