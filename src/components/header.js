@@ -4,7 +4,7 @@ import Button from "./button";
 
 const Header = (props)=>(
     <div className="appHdr">
-        <Logo/> 
+        <Logo reload={props.reload}/> 
         <div className="menu">
             {props.user && <article className="greetings">{"hi "+props.user}</article>} 
             <Button caption="About" activateProperFunctionBoy={props.about}/>

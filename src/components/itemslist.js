@@ -17,7 +17,7 @@ class ItemsList extends Component {
         this.setAffinity=this.setAffinity.bind(this);
         this.getAffinityValue=this.getAffinityValue.bind(this);
         this.openMyPage=this.openMyPage.bind(this);
-
+        this.openHomePage=this.openHomePage.bind(this);
     }
     render(){
         let iAuthored=0,iAfiiliated=0,iLiked=0;
@@ -43,7 +43,7 @@ class ItemsList extends Component {
                         </div>
                     ))
                 }
-                <button onClick={()=>this.getpopular()}>popular</button>
+                <div className="homeBtnWrapper"><Button caption="Home" activateProperFunctionBoy={this.openHomePage}/></div>
             </div>
         )
     }
@@ -111,7 +111,7 @@ class ItemsList extends Component {
             })
         }
     }
-    getpopular(){
+    openHomePage(){
         this.getList("likes");
     }
     addTestData(){

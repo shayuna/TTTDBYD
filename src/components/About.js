@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "./button";
 
 const About = (props)=>(
     <div className="aboutPg">
@@ -25,7 +26,7 @@ const About = (props)=>(
             p.s. if you have any feedback you can write to me at <a href="mailto:shaiz2206@gmail.com">shaiz2206@gmail.com</a>
             </div>
         </div>
-        <button className="backBtn" onClick={props.switchToMain}>back to main</button>
+        <div className="homeBtnWrapper"><Button caption="Back" activateProperFunctionBoy={props.switchToMain}/></div>
     </div>
 );
 const myStyles = {
@@ -37,5 +38,15 @@ const myStyles = {
         textIndent:"0",
     }
 }
+const mapStateToProps = (state) => {
+    return {
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+    };
+};
+
 export default About;
 

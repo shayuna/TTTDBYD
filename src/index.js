@@ -27,6 +27,7 @@ class App extends Component{
         this.getPageLink=this.getPageLink.bind(this);
         this.openMyPage=this.openMyPage.bind(this);
         this.setScreen=this.setScreen.bind(this);
+        this.openHomePage=this.openHomePage.bind(this);
         this.itemsListRef=React.createRef();
 
         var sUsr="";
@@ -62,7 +63,7 @@ class App extends Component{
         return (
             <Provider store={store}>
                 <article>
-                    <Header login={this.login} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} openMyPage={this.openMyPage} user={store.getState().user.username} isMyPage={this.state.screen===MY_PAGE}/>
+                    <Header login={this.login} reload={this.openHomePage} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} openMyPage={this.openMyPage} user={store.getState().user.username} isMyPage={this.state.screen===MY_PAGE}/>
                         {(this.state.screen===MAIN_SCREEN || this.state.screen===MY_PAGE) && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr} ref={this.itemsListRef} setScreen={(iScrn)=>this.setScreen(iScrn)}/>}
                         {this.state.screen===LOGIN_SCREEN && <Login switchToMain={this.main}/>} 
                         {this.state.screen===ABOUT_SCREEN && <About switchToMain={this.main}/>} 
@@ -99,9 +100,7 @@ class App extends Component{
         })
     }
     main(){
-        this.setState({
-            screen:MAIN_SCREEN,
-        });
+        this.setScreen(MAIN_SCREEN);
     }
     add(){
         this.setState({
@@ -123,6 +122,9 @@ class App extends Component{
     }
     openMyPage(){
         this.itemsListRef.current.getWrappedInstance().openMyPage();
+    }
+    openHomePage(){
+        this.itemsListRef.current.getWrappedInstance().getList("likes");
     }
 }
 ReactDOM.render(<App/>,document.querySelector("#eRoot"));
