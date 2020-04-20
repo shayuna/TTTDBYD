@@ -121,10 +121,12 @@ class App extends Component{
         });
     }
     openMyPage(){
-        this.itemsListRef.current.getWrappedInstance().openMyPage();
+        this.setScreen(MY_PAGE);
+        window.setTimeout(()=>{this.itemsListRef.current.getWrappedInstance().openMyPage()},100);
     }
     openHomePage(){
-        this.itemsListRef.current.getWrappedInstance().getList("likes");
+        this.setScreen(MAIN_SCREEN);
+        window.setTimeout(()=>{this.itemsListRef.current.getWrappedInstance().getList("likes")},100);
     }
 }
 ReactDOM.render(<App/>,document.querySelector("#eRoot"));
