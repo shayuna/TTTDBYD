@@ -1,12 +1,20 @@
 import React from "react";
 import Logo from "./logo";
 import Button from "./button";
+import Helper from "./helper";
 
 const Header = (props)=>(
     <div className="appHdr">
         <Logo reload={props.reload}/> 
         <div className="menu">
-            {props.user && <article className="greetings">{"hi "+props.user}</article>} 
+            {props.user && 
+            <div id="eProfileMenuWrapper">
+                <div id="eProfileMenuBtn" onClick={Helper.toggleProfileMenuState}>hi {props.user}</div>
+                <ul id="eProfileMenu" className="hideMe">
+                    <li className="itm" onClick={Helper.reload} >Sign out</li>
+                </ul>
+            </div>
+            } 
             <Button caption="About" activateProperFunctionBoy={props.about}/>
             {!props.user && <Button caption="Login" activateProperFunctionBoy={props.login}/> }
             {!props.user && <Button caption="Register" activateProperFunctionBoy={props.register}/>}
@@ -16,5 +24,4 @@ const Header = (props)=>(
         </div>
     </div>
 )
-
 export default Header;
