@@ -18,24 +18,21 @@ input,textarea,select{
     flex-grow:1;
 }
 #eProfileMenuWrapper{
-    margin-top:0.5rem;
-    position:absolute;
-    top:0;
-    left:0;
+/*    margin-top:0.5rem;*/
+/*    position:absolute;*/
+/*    top:0;*/
+ /*   left:0;*/
     z-index:1000;
     display:inline-block;
     cursor:pointer;
+    position:relative;
+    justify-self:end;
 }
 #eProfileMenuBtn{
-    padding: 0.3rem 2rem;
-    text-align:center;
-    border: 1px solid rgba(0,0,0,0.1);
-    background:#a11 linear-gradient(hsla(0,0%,100%,0.4),transparent);
-    border-radius:0.2rem;
-    box-shadow:0 0.05rem 0.25rem rgba(0,0,0,0.5);
-    color:white;
-    text-shadow:0 -0.05rem 0.05rem rgba(0,0,0,0.5);
-    line-height:1.5;
+    padding:0 1.5rem 0 0;
+    background-image:url(../images/open_icon.png);
+    background-repeat:no-repeat;
+    background-position:center right;
 }
 #eProfileMenu{
     background-color:white;
@@ -44,11 +41,14 @@ input,textarea,select{
     margin:0.2rem 0;
     text-align:center;
     padding:0;
+    width:100%;
+    position:absolute;
 }
 #eProfileMenu .itm{
-    padding:1rem;
+    padding:1rem 0;
     border-bottom:1px solid;
     margin:0 0.4rem;
+    white-space:nowrap;
 }
 #eProfileMenu .itm:last-child{
     border-bottom:0;
@@ -114,6 +114,12 @@ input,textarea,select{
 }
 .itemsList .interactivePanel .btnElmWrapper{
     margin:0 0.1rem 0 0 !important;
+}
+.menu .btnElmWrapper{
+    margin-left:auto !important;
+}
+.menu .btnElmWrapper ~ .btnElmWrapper{
+    margin-left:0.5rem !important;
 }
 .homeBtnWrapper{
     text-align:right;
