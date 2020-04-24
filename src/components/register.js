@@ -1,4 +1,5 @@
 import React,{Component} from "react";
+import Button from "./button";
 import firebase from "./firebase";
 import {connect} from "react-redux";
 import {setUser} from "../redux/actions/user";
@@ -28,6 +29,7 @@ class Register extends Component {
                 <input id="pwd" type="password" className="inputItm" placeholder="enter password" style={styles.itm} ref={this.passwordRef}/>
                 <input id="pwd2" type="password" className="inputItm" placeholder="verify password" style={styles.itm}/>
                 <button className="btn" onClick={this.register} style={styles.itm}>register</button> 
+                <div className="homeBtnWrapper"><Button caption="Back" activateProperFunctionBoy={this.props.switchToMain}/></div>
             </article>
         );
     }
