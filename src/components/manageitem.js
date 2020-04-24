@@ -1,4 +1,5 @@
 import React,{Component} from "react";
+import Button from "./button";
 import firebase from "./firebase";
 import {connect} from "react-redux";
 import {clearItems} from "../redux/actions/items";
@@ -18,6 +19,7 @@ class ManageItem extends Component {
                 <textarea id="description" type="description" className="inputItm" placeholder="description" style={{...styles.itm,...styles.descriptionItm}} defaultValue={this.props.description}></textarea>
                 {!this.props.id && <button className="btn" onClick={this.addItem} style={styles.itm}>add</button>} 
                 {this.props.id && <button className="btn" onClick={this.updateItem} style={styles.itm}>update</button>} 
+                <div className="homeBtnWrapper"><Button caption="Back" activateProperFunctionBoy={this.props.switchToMain}/></div>
             </article>
         );
     }
