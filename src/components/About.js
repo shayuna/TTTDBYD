@@ -2,7 +2,7 @@ import React from "react";
 import Button from "./button";
 
 const About = (props)=>(
-    <div className="aboutPg">
+    <div className="aboutPg main">
         <div className="itm">
             <div style={myStyles.prg}>
             The end always waits. we go on running through our days in order not to encounter this

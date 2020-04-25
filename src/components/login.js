@@ -22,11 +22,11 @@ class Login extends Component {
     }
     render(){
         return (
-            <article style={styles.main}>
-                <h3 className="innerScrnHdr" style={styles.itm}>login screen</h3>
-                <input id="username" type="text" className="inputItm" placeholder="username" style={styles.itm}/>
-                <input id="pwd" type="password" className="inputItm" placeholder="password" style={styles.itm}/>
-                <button className="btn" onClick={this.login} style={styles.itm}>login</button> 
+            <article id="eLoginPg" className="main">
+                <h3 className="innerScrnHdr">login screen</h3>
+                <input id="username" type="text" className="inputItm" placeholder="username"/>
+                <input id="pwd" type="password" className="inputItm" placeholder="password"/>
+                <button className="btn" onClick={this.login} >login</button> 
                 <div className="homeBtnWrapper"><Button caption="Back" activateProperFunctionBoy={this.props.switchToMain}/></div>
             </article>
         );
@@ -106,13 +106,6 @@ class Login extends Component {
     }
 }
 const styles={
-    main:{
-        display:"flex",
-        flexDirection:"column",
-    },
-    itm:{
-        width:"10em",
-    },
 }
 
 const mapStateToProps = (state) => {

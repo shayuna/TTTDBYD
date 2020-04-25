@@ -13,12 +13,12 @@ class ManageItem extends Component {
     }
     render(){
         return (
-            <article style={styles.main}>
-                <h3 className="innerScrnHdr" style={styles.itm}>manage item screen</h3>
-                <input id="caption" type="text" className="inputItm" placeholder="title" style={styles.itm} defaultValue={this.props.caption}/>
-                <textarea id="description" type="description" className="inputItm" placeholder="description" style={{...styles.itm,...styles.descriptionItm}} defaultValue={this.props.description}></textarea>
-                {!this.props.id && <button className="btn" onClick={this.addItem} style={styles.itm}>add</button>} 
-                {this.props.id && <button className="btn" onClick={this.updateItem} style={styles.itm}>update</button>} 
+            <article id="eItmPg" className="main">
+                <h3 className="innerScrnHdr" >manage item screen</h3>
+                <input id="caption" type="text" className="inputItm" placeholder="title" defaultValue={this.props.caption}/>
+                <textarea id="eDescriptionItm" type="description" className="inputItm" placeholder="description"  defaultValue={this.props.description}></textarea>
+                {!this.props.id && <button className="btn" onClick={this.addItem}>add</button>} 
+                {this.props.id && <button className="btn" onClick={this.updateItem}>update</button>} 
                 <div className="homeBtnWrapper"><Button caption="Back" activateProperFunctionBoy={this.props.switchToMain}/></div>
             </article>
         );
@@ -77,16 +77,6 @@ class ManageItem extends Component {
     }
 }
 const styles={
-    main:{
-        display:"flex",
-        flexDirection:"column",
-    },
-    itm:{
-        width:"20em",
-    },
-    descriptionItm:{
-        height:"20em",
-    }
 }
 
 const mapStateToProps = (state) => {

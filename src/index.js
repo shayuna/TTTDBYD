@@ -62,7 +62,7 @@ class App extends Component{
     render(){
         return (
             <Provider store={store}>
-                <article>
+                <article id="eAllWrapper">
                     <Header login={this.login} reload={this.openHomePage} register={this.register} about={this.about} add={this.add} getPageLink={this.getPageLink} openMyPage={this.openMyPage} user={store.getState().user.username} isMyPage={this.state.screen===MY_PAGE}/>
                         {(this.state.screen===MAIN_SCREEN || this.state.screen===MY_PAGE) && <ItemsList editItem={(sID,sCaption,sDescription)=>this.editItem(sID,sCaption,sDescription)} usr={this.state.usr} ref={this.itemsListRef} setScreen={(iScrn)=>this.setScreen(iScrn)}/>}
                         {this.state.screen===LOGIN_SCREEN && <Login switchToMain={this.main}/>} 

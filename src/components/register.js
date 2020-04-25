@@ -23,12 +23,12 @@ class Register extends Component {
     }
     render(){
         return (
-            <article style={styles.main}>
-                <h3 className="innerScrnHdr" style={styles.itm}>register screen</h3>
-                <input id="username" type="text" className="inputItm" placeholder="enter a username" style={styles.itm} autoFocus ref={this.usernameRef} onBlur={this.isNameUnique}/>
-                <input id="pwd" type="password" className="inputItm" placeholder="enter password" style={styles.itm} ref={this.passwordRef}/>
-                <input id="pwd2" type="password" className="inputItm" placeholder="verify password" style={styles.itm}/>
-                <button className="btn" onClick={this.register} style={styles.itm}>register</button> 
+            <article id="eRegisterPg" className="main">
+                <h3 className="innerScrnHdr">register screen</h3>
+                <input id="username" type="text" className="inputItm" placeholder="enter a username" autoFocus ref={this.usernameRef} onBlur={this.isNameUnique}/>
+                <input id="pwd" type="password" className="inputItm" placeholder="enter password" ref={this.passwordRef}/>
+                <input id="pwd2" type="password" className="inputItm" placeholder="verify password"/>
+                <button className="btn" onClick={this.register}>register</button> 
                 <div className="homeBtnWrapper"><Button caption="Back" activateProperFunctionBoy={this.props.switchToMain}/></div>
             </article>
         );
@@ -119,13 +119,6 @@ class Register extends Component {
     }
 }
 const styles={
-    main:{
-        display:"flex",
-        flexDirection:"column",
-    },
-    itm:{
-        width:"10em",
-    },
 }
 
 const mapStateToProps = (state) => {

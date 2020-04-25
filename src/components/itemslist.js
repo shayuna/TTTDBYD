@@ -22,10 +22,10 @@ class ItemsList extends Component {
     render(){
         let iAuthored=0,iAfiiliated=0,iLiked=0;
         return (
-            <div className="itemsList">
+            <div className="itemsList main">
                 {
                     this.state.currentList && this.props.items[this.state.currentList] && this.props.items[this.state.currentList].map((itm,ii)=>(
-                        <div key={ii}>
+                        <div className="itmWrapper" key={ii}>
                             {this.state.currentList==="mylist" && this.props.user.authored && !!this.props.user.authored[itm.id] && ++iAuthored===1  && <div className="ctgCaption">authored</div>}
                             {this.state.currentList==="mylist" && this.props.user.affinities && !!this.props.user.affinities[itm.id] && (!this.props.user.authored || !this.props.user.authored[itm.id]) && ++iAfiiliated===1  && <div className="ctgCaption">serious about</div>}
                             {this.state.currentList==="mylist" && this.props.user.likes && !!this.props.user.likes[itm.id] && (!this.props.user.authored || !this.props.user.authored[itm.id]) && (!this.props.user.affinities || !this.props.user.affinities[itm.id]) && ++iLiked===1  && <div className="ctgCaption">likes</div>}
