@@ -14,7 +14,7 @@ class ManageItem extends Component {
     render(){
         return (
             <article id="eItmPg" className="main">
-                <h3 className="innerScrnHdr" >manage item screen</h3>
+                <h3 className="innerScrnHdr" >a thing to do</h3>
                 <input id="caption" type="text" className="inputItm" placeholder="title" defaultValue={this.props.caption}/>
                 <textarea id="eDescriptionItm" type="description" className="inputItm" placeholder="description"  defaultValue={this.props.description}></textarea>
                 {!this.props.id && <button className="btn" onClick={this.addItem}>add</button>} 
