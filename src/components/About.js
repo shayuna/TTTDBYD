@@ -10,7 +10,7 @@ const About = (props)=>(
             at it, the thing that frightens, me at least, more than everything else is the thought
             that i will be sorry for things that i could have done but didn't.
             the irony in that, i think, that on my deadbed i will propbalby think about things
-            that there and then will be impossible, but right here and now are at an arn's reach.
+            that there and then will be impossible, but right here and now are at an arm's reach.
             now i have my health, my senses, my emphaty and joy for living , so as to make everything
             possible. and by everything i don't mean flying a jet or petthing a white shark on its fin.
             i mean doing the things we can easily do right now but will greatly regret if we'll dismiss.
@@ -19,8 +19,9 @@ const About = (props)=>(
             you may have noticed that we're talking here mostly about processes and not a one time deed.
             </div>
             <div style={myStyles.prg}>
-            So, what is it for you ? here you have a real chance to think about the ten things you'll like
-            to do before you'll die, share them with others and receive feedback (for now it's only likes, maybe later on there will also be comments)
+            So, what is it for you ? here you have a real chance to think about the things you'll like 
+            to do, share them with others and receive feedback and also add new dreams 
+            to your list. 
             </div>
             <div style={{...myStyles.prg,...myStyles.noIndent}}>
             p.s. if you have any feedback you can write to me at <a href="mailto:shaiz2206@gmail.com">shaiz2206@gmail.com</a>
