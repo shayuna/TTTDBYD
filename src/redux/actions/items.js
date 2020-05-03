@@ -88,9 +88,9 @@ export function getItems(filter,valToMatch,oUser,oItems) {
         else{
             console.log ("filter="+filter+" *** valtomatch="+valToMatch);
             if (valToMatch){
-                query=database.ref("items").orderByChild(filter).equalTo(valToMatch).limitToLast(10);
+                query=database.ref("items").orderByChild(filter).equalTo(valToMatch).limitToLast(100);
             }else{
-                query=database.ref("items").orderByChild(filter).limitToLast(10);
+                query=database.ref("items").orderByChild(filter).limitToLast(100);
             }
             query.once("value")
             .then((snapshot)=>{
